@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
 import { useCart } from "./CartContext";
 import RandomProducts from "../RandomProducts/RandomProducts";
+import { CartContext } from "../../CartContext";
 
 const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const params = useParams();
   const { dispatch } = useCart();
+  const userId = localStorage.getItem("userId")
 
-  const handleAddToCart = () => {
-    dispatch({ type: "ADD_TO_CART", payload: { ...product, quantity } });
-  };
+
+
+  const {loadCartItems} = useContext(CartContext)
+
 
   const addQuantity = () => {
     setQuantity((prevQuantity) => prevQuantity + 1);
@@ -35,6 +38,37 @@ const ProductDetail = () => {
       setProduct(data);
     } catch (error) {
       console.log("An error occurred while fetching product", error);
+    }
+  };
+
+
+
+  const addToCart = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/cart/cart/add/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`, 
+        },
+        body: JSON.stringify({
+          cost: product.price,
+          cart: userId,
+          product: product.id,
+          quantity: quantity,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to add to cart');
+      }
+  
+      const data = await response.json();
+      console.log(data)
+      loadCartItems()
+      
+    } catch (error) {
+      console.error('An error occurred while adding to cart', error);
     }
   };
 
@@ -82,7 +116,7 @@ const ProductDetail = () => {
 
         <button
           className="bg-slate-950 text-white rounded-md px-2 py-2 w-full"
-          onClick={handleAddToCart}
+          onClick={(addToCart)}
         >
           Add to cart
         </button>

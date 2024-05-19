@@ -1,17 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {FaRegUser} from 'react-icons/fa'
 import { FaRegBell , FaPhone, } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { CartContext } from '../ShoppingCart/CartContext';
+import { CartContext } from '../../CartContext';
+
 
 
 const Header = () => {
 
-  const { state } = useContext(CartContext);
-  const cartItemsCount = state.items.length;
+  const {cartItems, loadCartItems} = useContext(CartContext)
+  const cartItemsCount = cartItems.length;
 
   return (
     <div className=' min-h-[75px] bg-slate-100 px-5 py-2 text-slate-700 '>
@@ -32,7 +33,7 @@ const Header = () => {
             />
 
 <div className='flex gap-3'>
-          <Link to='/main/shopping-cart'>
+          <Link onClick={loadCartItems} to='/main/shopping-cart'>
             <IoCartOutline size={25} />
             {cartItemsCount > 0 && (
               <span className='bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs'>
@@ -40,7 +41,7 @@ const Header = () => {
               </span>
             )}
           </Link>
-          <CiHeart size={25} />
+         <Link  to={`/main/favourites`}><CiHeart size={25} /></Link> 
         </div>
           </div>
 

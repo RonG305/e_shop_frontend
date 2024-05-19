@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
+import { addToCart } from "../../apiConfig";
 
 
 import Spinner from 'react-bootstrap/Spinner';
-import { useCart } from "../ShoppingCart/CartContext";
+
 
 function BorderExample() {
   return <Spinner animation="border" />;
@@ -60,11 +61,13 @@ const ProductList = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [randomProduct, setRandomProduct ] = useState({})
 
-  const {dispatch} = useCart()
 
-  const handleAddToCart = (product) => {
-    dispatch({ type: "ADD_TO_CART", payload: { ...product, quantity: 1 } });
-  };
+
+
+  const handleAddToCart = (product_id) => {
+    addToCart(product_id, 1).catch(console.error);
+    
+};
 
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,9 +83,7 @@ const ProductList = () => {
   };
 
 
-  const addToCart = () => {
-    console.log("Added to cart")
-  }
+
 
   const getProducts = async () => {
     try {
@@ -192,7 +193,7 @@ const ProductList = () => {
                   <p className=" font-light">Ksh {product.price} </p>
                 </div>
 
-                <div  onClick={() => handleAddToCart(product)} className=" mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-green-700 text-white rounded-full">
+                <div  onClick={() => handleAddToCart(product.id)} className=" mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-green-700 text-white rounded-full">
                       <span>+</span>
                 </div>
                 </div>

@@ -16,6 +16,8 @@ import ProductDetail from '../../components/ShoppingCart/ProductDetail'
 import ShoppingCart from '../../components/ShoppingCart/ShoppingCart'
 import Signin from '../../components/Signin/Signin'
 import Signup from '../../components/Signup/Signup'
+import Favourites from '../../components/Favourites/Favourites'
+import { CartProvider } from '../../CartContext'
 
 const Main = () => {
   return (
@@ -23,8 +25,8 @@ const Main = () => {
     <div className=' hidden'>
     <Sidebar  />
     </div>
-   
-    <div className=''>
+   <CartProvider>
+   <div className=''>
         <Header />
         <div className=' flex flex-col items-center '>
           <div className=' lg:w-[70%] md:[85%] w-[100%]  p-5 '>
@@ -36,6 +38,7 @@ const Main = () => {
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />
               <Route path='/product-list' element={<ProductList />} />
+              <Route path='/favourites'element={<Favourites />}/>
               <Route path='/product-overview' element={<ProductOverview />} />
               <Route  path='/product-detail/:id' element={<ProductDetail />}/>
               <Route path='/shopping-cart' element={<ShoppingCart />} />
@@ -47,6 +50,8 @@ const Main = () => {
         
        
     </div>
+   </CartProvider>
+
    <Footer />
    </div>
   )

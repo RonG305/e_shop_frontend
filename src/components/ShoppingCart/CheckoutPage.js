@@ -1,16 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import OrderSummary from "./OrderSummary";
+import { fetchCartItems } from "../../apiConfig";
+import { API_BASE_URL } from "../../apiConfig";
 
 const CheckoutPage = () => {
+
+
+  const [totalCost, setTotalCost] = useState(0);
+
+  const loadCartItems = async () => {
+    const items = await fetchCartItems();
+    calculateTotalCost(items);
+  };
+
+  useEffect(() => {
+    loadCartItems();
+  }, []);
+
+  const calculateTotalCost = (items) => {
+    const total = items.reduce(
+      (acc, item) => acc + item.cost * item.quantity,
+      0
+    );
+    console.log(total);
+    setTotalCost(total);
+  };
+
+
+  console.log("Total Cost: ", totalCost)
+
+
+  const userId = localStorage.getItem("userId")
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
+    user: userId, 
+    full_name: "",
+    email_address: "",
     address: "",
     city: "",
-    zip: "",
-    cardNumber: "",
-    expirationDate: "",
-    cvv: "",
+    zip_code: "",
+    phone_number: "",
+
+    total_price: 0,
+    payment_method: "M-PESA",
+    is_paid: false,
+    isDelivered: false,
+
+    
   });
 
   const handleChange = (e) => {
@@ -21,24 +57,60 @@ const CheckoutPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Implement your form submission logic here
-    console.log(formData);
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/orders/createOrder/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      const data = await response.json();
+      console.log("Order created successfully:", data);
+     
+    } catch (error) {
+      console.error('An error occurred while creating the order', error);
+    }
   };
 
-  return (
-    <div className=" rounded-md bg-gray-100 p-4">
 
-<h3 className="text-center text-slate-950 font-extrabold text-3xl my-4">
-            Checkout
-          </h3>
-        
+  return (
+    <form onSubmit={handleSubmit} className=" rounded-md bg-gray-100 p-4">
+      <h3 className="text-center text-slate-950 font-extrabold text-3xl my-4">
+        Checkout
+      </h3>
+
       <div className=" md:flex ">
         <div className="container mx-auto py-8">
-          
+          <div  className="max-w-lg mx-auto">
 
-          <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+                
+                <div className="mb-4">
+              <label
+                htmlFor="user"
+                className="block text-sm font-medium text-gray-700"
+              >
+                User
+              </label>
+              <input
+                type="text"
+                id="user"
+                name="user"
+                value={formData.user}
+                onChange={handleChange}
+                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                required
+              />
+            </div>
+
             {/* Full Name */}
             <div className="mb-4">
               <label
@@ -49,9 +121,9 @@ const CheckoutPage = () => {
               </label>
               <input
                 type="text"
-                id="fullName"
-                name="fullName"
-                value={formData.fullName}
+                id="full_name"
+                name="full_name"
+                value={formData.full_name}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
@@ -68,9 +140,9 @@ const CheckoutPage = () => {
               </label>
               <input
                 type="email"
-                id="email"
-                name="email"
-                value={formData.email}
+                id="email_address"
+                name="email_address"
+                value={formData.email_address}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
@@ -125,112 +197,91 @@ const CheckoutPage = () => {
               </label>
               <input
                 type="text"
-                id="zip"
-                name="zip"
-                value={formData.zip}
+                id="zip_code"
+                name="zip_code"
+                value={formData.zip_code}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
               />
             </div>
 
-            {/* Card Number */}
-            <div className="mb-4">
+
+             {/* Phone Number */}
+             <div className="mb-4">
               <label
-                htmlFor="cardNumber"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
-                Card Number
+                Phone Number
               </label>
               <input
                 type="text"
-                id="cardNumber"
-                name="cardNumber"
-                value={formData.cardNumber}
+                id="phone_number"
+                name="phone_number"
+                value={formData.phone_number}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
               />
             </div>
 
-            {/* Expiration Date */}
-            <div className="mb-4">
+
+             {/* Phone Number */}
+             <div className="mb-4">
               <label
-                htmlFor="expirationDate"
+                htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
               >
-                Expiration Date
+                Total price
               </label>
               <input
                 type="text"
-                id="expirationDate"
-                name="expirationDate"
-                value={formData.expirationDate}
+                id="total_price"
+                name="total_price"
+                value={totalCost}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
               />
             </div>
 
-            {/* CVV */}
-            <div className="mb-4">
+
+                {/* Phone Number */}
+                <div className="mb-4">
               <label
-                htmlFor="cvv"
+                htmlFor="payment_method"
                 className="block text-sm font-medium text-gray-700"
               >
-                CVV
+                Payment method
               </label>
               <input
                 type="text"
-                id="cvv"
-                name="cvv"
-                value={formData.cvv}
+                id="payment_method"
+                name="payment_method"
+                value={formData.payment_method}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
               />
             </div>
-          </form>
+
+          
+          </div>
         </div>
 
         {/* Order Summary */}
         <div className="md:w-1/2 w-full">
-          <h3 className="text-slate-950 font-medium text-xl">Order summary</h3>
+          <OrderSummary totalCost={totalCost}  />
 
-          <div className="border-b border-slate-200 mb-4">
-            <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
-              <p>Subtotal</p>
-              <p>$99.00</p>
-            </div>
-            {/* Add more summary items here */}
-          </div>
-
-          <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
-            <p>Shipping estimate</p>
-            <p>$3.00</p>
-          </div>
-
-          <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
-            <p>Tax Estimate</p>
-            <p>$2.00</p>
-          </div>
-
-          <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
-            <p className="font-bold text-slate-950">Total Order</p>
-            <p className="font-bold text-slate-950">$104.00</p>
-          </div>
-
-          <button className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4">
-            Confirm order
-          </button>
-
-          <Link to={"/"} className="text-blue-500 my-3 block text-center">
-            Continue shopping
-          </Link>
+        <button type="submit" className="bg-slate-950 w-full text-white rounded-md px-4 py-2  mt-4">
+          Place Order
+        </button>
         </div>
+
       </div>
       {/* Order summary */}
-    </div>
+    </form>
   );
 };
 
