@@ -45,7 +45,7 @@ const PainManagement = () => {
     {painProducts.map((product, index) => (
           <Link to={`/main/product-detail/${product.id}`} key={index}>
           <div className=" relative rounded-md  h-40 ">
-            <div class="absolute top-2 left-0 px-2 py-1 bg-green-700 text-xs font-bold text-white rounded-tr-md rounded-br-md">
+            <div class="absolute top-2 left-0 px-2 py-1 bg-orange-500 text-xs font-bold text-white rounded-tr-md rounded-br-md">
               <span>20% discount</span>
             </div>
             <div class="absolute top-2 right-0 px-2 py-1text-xs font-bold text-white  ">

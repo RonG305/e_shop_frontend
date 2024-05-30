@@ -92,6 +92,7 @@ const Signin = () => {
                 <div>
                     <p>Enter password</p>
                     <input
+                    type='password'
                     name='password'
                     value={userData.password}
                     onChange={handleChange}
@@ -101,11 +102,11 @@ const Signin = () => {
                 </div>
 
                 {isLoading ? (
-                     <button className=' bg-blue-700 text-white rounded-md px-4 py-1 mt-2 buttonload' >
+                     <button className=' bg-orange-500 text-white rounded-md px-4 py-1 mt-2 buttonload' >
                      <i class="fa fa-circle-o-notch fa-spin"></i>Loading
                  </button>
                 ): (
-                    <button type='submit' className=' bg-blue-700 text-white rounded-md px-4 py-1 mt-2 '>Sign in</button>
+                    <button type='submit' className=' bg-orange-500 text-white rounded-md px-4 py-1 mt-2 '>Sign in</button>
                 )}
               
             </div>

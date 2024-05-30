@@ -1,4 +1,7 @@
 export const API_BASE_URL = "http://192.168.1.103:8000";
+// export const API_BASE_URL = "http://127.0.0.1:8000";
+
+// export const API_BASE_URL = "http://192.168.43.118:8000/"
 
 export const getToken = () => {
     return localStorage.getItem('access_token');
@@ -65,3 +68,27 @@ export const removeFromCart = async(item_id) => {
         console.log('Error while removing item from cart', error);
     }
 };
+
+
+export const clearCart = async () => {
+    try {
+  
+      const response = await fetch(`${API_BASE_URL}/api/cart/cart/clear/`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        }
+      })
+  
+      if(!response.ok) {
+        throw new Error("Error while clearing cart items")
+      }
+  
+      const data = await response.json()
+      console.log(data)
+  
+    } catch(error) {
+      console.log("An error occured while clearing the cart")
+    }
+  }
+  

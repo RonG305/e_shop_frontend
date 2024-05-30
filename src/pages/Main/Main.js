@@ -18,6 +18,8 @@ import Signin from '../../components/Signin/Signin'
 import Signup from '../../components/Signup/Signup'
 import Favourites from '../../components/Favourites/Favourites'
 import { CartProvider } from '../../CartContext'
+import Receipt from '../../components/CustomerOrders/CustomerOrders.js'
+import CustomerOrders from '../../components/CustomerOrders/CustomerOrders.js'
 
 const Main = () => {
   return (
@@ -28,12 +30,13 @@ const Main = () => {
    <CartProvider>
    <div className=''>
         <Header />
-        <div className=' flex flex-col items-center '>
+        <div className=' flex flex-col items-center mt-[120px] '>
           <div className=' lg:w-[70%] md:[85%] w-[100%]  p-5 '>
            
        
       
           <Routes>
+            
             <Route path='/' element={<LandingPage />} />
             <Route path='/signin' element={<Signin />} />
             <Route path='/signup' element={<Signup />} />
@@ -43,6 +46,7 @@ const Main = () => {
               <Route  path='/product-detail/:id' element={<ProductDetail />}/>
               <Route path='/shopping-cart' element={<ShoppingCart />} />
               <Route path='/checkout' element={<CheckoutPage />} />
+              <Route path="/my-orders" element={<CustomerOrders />} />
 
           </Routes>
           </div>

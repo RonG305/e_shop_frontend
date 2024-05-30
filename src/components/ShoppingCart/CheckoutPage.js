@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import OrderSummary from "./OrderSummary";
 import { fetchCartItems } from "../../apiConfig";
 import { API_BASE_URL } from "../../apiConfig";
 
 const CheckoutPage = () => {
-
-
+  const [isCheckout, setIsCheckout] = useState(true)
+  const navigate = useNavigate()
   const [totalCost, setTotalCost] = useState(0);
+
+
+  const [successMessage, setSuccessMessage] = useState("")
+  const [isLoading, setIsLoading] = useState(true)
+
+
+
 
   const loadCartItems = async () => {
     const items = await fetchCartItems();
@@ -18,14 +25,7 @@ const CheckoutPage = () => {
     loadCartItems();
   }, []);
 
-  const calculateTotalCost = (items) => {
-    const total = items.reduce(
-      (acc, item) => acc + item.cost * item.quantity,
-      0
-    );
-    console.log(total);
-    setTotalCost(total);
-  };
+
 
 
   console.log("Total Cost: ", totalCost)
@@ -41,13 +41,26 @@ const CheckoutPage = () => {
     zip_code: "",
     phone_number: "",
 
-    total_price: 0,
+    total_price: totalCost,
     payment_method: "M-PESA",
     is_paid: false,
     isDelivered: false,
 
     
   });
+
+
+
+  const calculateTotalCost = (items) => {
+    const total = items.reduce((acc, item) => acc + item.cost * item.quantity, 0);
+    console.log(total);
+    setTotalCost(total);
+    setFormData((prevData) => ({
+      ...prevData,
+      total_price: total,
+    }));
+  };
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -75,11 +88,29 @@ const CheckoutPage = () => {
 
       const data = await response.json();
       console.log("Order created successfully:", data);
+      setSuccessMessage("Order submitted succesifully")
+      setIsLoading(true)
+
+      const timer = setTimeout(() => {
+        navigate('/main/my-orders')
+      }, 3000);
+
+      return () => clearTimeout(timer)
      
     } catch (error) {
       console.error('An error occurred while creating the order', error);
     }
   };
+
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setSuccessMessage("")
+      setIsLoading(false)
+   }, 2000);
+
+   return () => clearTimeout(timer)
+  })
 
 
   return (
@@ -93,7 +124,7 @@ const CheckoutPage = () => {
           <div  className="max-w-lg mx-auto">
 
                 
-                <div className="mb-4">
+                <div className="mb-4 hidden">
               <label
                 htmlFor="user"
                 className="block text-sm font-medium text-gray-700"
@@ -125,7 +156,7 @@ const CheckoutPage = () => {
                 name="full_name"
                 value={formData.full_name}
                 onChange={handleChange}
-                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                className="mt-1 p-2 border border-gray-300   rounded-md w-full"
                 required
               />
             </div>
@@ -228,7 +259,7 @@ const CheckoutPage = () => {
 
 
              {/* Phone Number */}
-             <div className="mb-4">
+             <div className="mb-4 ">
               <label
                 htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
@@ -239,10 +270,11 @@ const CheckoutPage = () => {
                 type="text"
                 id="total_price"
                 name="total_price"
-                value={totalCost}
+                value={formData.total_price}
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
+                readOnly
               />
             </div>
 
@@ -263,7 +295,50 @@ const CheckoutPage = () => {
                 onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
                 required
+                readOnly
               />
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="payment_method" className="block text-sm font-medium text-gray-700">Payment Method</label>
+              <div className="mt-2">
+                <div className="flex items-center mb-2">
+                  <input
+                    type="radio"
+                    id="mpesa"
+                    name="payment_method"
+                    value="M-PESA"
+                    checked={formData.payment_method === 'M-PESA'}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label htmlFor="mpesa" className="text-sm font-medium text-gray-700">M-PESA</label>
+                </div>
+                <div className="flex items-center mb-2">
+                  <input
+                    type="radio"
+                    id="paypal"
+                    name="payment_method"
+                    value="PAYPAL"
+                    checked={formData.payment_method === 'PAYPAL'}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label htmlFor="paypal" className="text-sm font-medium text-gray-700">PAYPAL</label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="credit_card"
+                    name="payment_method"
+                    value="CREDIT_CARD"
+                    checked={formData.payment_method === 'CREDIT_CARD'}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  <label htmlFor="credit_card" className="text-sm font-medium text-gray-700">Credit Card</label>
+                </div>
+              </div>
             </div>
 
           
@@ -271,12 +346,23 @@ const CheckoutPage = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="md:w-1/2 w-full">
-          <OrderSummary totalCost={totalCost}  />
 
-        <button type="submit" className="bg-slate-950 w-full text-white rounded-md px-4 py-2  mt-4">
-          Place Order
-        </button>
+        <div className="md:w-1/2 w-full">
+        {successMessage &&  <p className=" bg-green-500 text-white rounded-md px-4 py-1 my-2">{successMessage}</p>}
+          <OrderSummary totalCost={totalCost}  isCheckout={isCheckout} />
+
+          {isLoading ? (
+            <button className=" bg-slate-950 w-full text-white rounded-md px-4 py-2 mt-2 buttonload">
+              <i class="fa fa-circle-o-notch fa-spin"></i>Loading...
+            </button>
+          ) : (
+            <button
+            
+              className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4"
+            >
+              Place Order
+            </button>
+          )}
         </div>
 
       </div>

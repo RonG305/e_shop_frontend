@@ -7,7 +7,7 @@ const Banner = () => {
     <div
      className=' flex items-center justify-center text-white w-full rounded-md mt-4  min-h-48 bg-orange-400'
     >
-        <div className='w-full rounded-sm md:h-44 bg-orange-500 m-2 p-2  md:flex items-center justify-between'>
+        <div className='w-full rounded-sm md:h-64 bg-orange-700 m-2 p-2  md:flex items-center justify-between'>
         <img className='w-40' src='/images/macbook.png' loading='lazy' />
             <div >
                 <p className=' text-xl font-semibold'>New Deals</p>

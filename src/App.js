@@ -3,9 +3,10 @@ import './App.css';
 import Signup from './components/Signup/Signup';
 import Signin from './components/Signin/Signin';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './pages/Main/Main';
 import { CartProvider } from './components/ShoppingCart/CartContext';
+import Dashboard from './Admin/Dashboard/Dashboard';
 
 function App() {
   return (
@@ -13,9 +14,11 @@ function App() {
       <CartProvider>
       <BrowserRouter>
         <Routes>
+          
           <Route path='/signin' element={<Signin />} />
           <Route  path='/signup' element ={<Signup />}/>
           <Route path='/main/*' element={<Main />} />
+          <Route path='/dashboard/*' element={<Dashboard />}  />
         </Routes>
       </BrowserRouter>
       </CartProvider>

@@ -23,7 +23,6 @@ const ProductCard = () => {
       className={`relative  h-fit md:h-fit border bg-gray-200 overflow-hidden rounded-md p-2 ${isHovered ? 'bg-gray-300 transition-all ease-out delay-150' : ''}`} 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      
       >
 
       <img src='/images/med2.png' alt='product-name' />

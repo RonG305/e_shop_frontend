@@ -1,6 +1,6 @@
 
 import React, { createContext, useState, useEffect } from 'react';
-import { fetchCartItems } from './apiConfig';
+import { clearCart, fetchCartItems } from './apiConfig';
 import { removeFromCart } from './apiConfig';
 
 export const CartContext = createContext();
@@ -8,6 +8,8 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
+
+
 
   const loadCartItems = async () => {
     const items = await fetchCartItems();
@@ -17,12 +19,13 @@ export const CartProvider = ({ children }) => {
 
 
 
-  
-
-
-
   const handleRemoveFromCart = async (item) => {
     await removeFromCart(item.id)
+    loadCartItems()
+  }
+
+  const handleClearCart = async() => {
+    await clearCart()
     loadCartItems()
   }
 
@@ -36,7 +39,7 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   return (
-    <CartContext.Provider value={{ cartItems, totalCost, loadCartItems, handleRemoveFromCart }}>
+    <CartContext.Provider value={{ cartItems, totalCost, loadCartItems, handleRemoveFromCart, handleClearCart }}>
       {children}
     </CartContext.Provider>
   );

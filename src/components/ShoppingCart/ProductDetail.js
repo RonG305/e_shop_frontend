@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
 import { useCart } from "./CartContext";
@@ -9,11 +9,14 @@ import { CartContext } from "../../CartContext";
 const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false)
   const params = useParams();
   const { dispatch } = useCart();
   const userId = localStorage.getItem("userId")
 
+  const [successMessage, setSuccessMessage] = useState("")
 
+ const navigate = useNavigate()
 
   const {loadCartItems} = useContext(CartContext)
 
@@ -61,23 +64,46 @@ const ProductDetail = () => {
   
       if (!response.ok) {
         throw new Error('Failed to add to cart');
+        
       }
   
       const data = await response.json();
       console.log(data)
+      setIsLoading(true)
+      
+      setSuccessMessage("added to cart succesifully")
       loadCartItems()
+ 
       
     } catch (error) {
       console.error('An error occurred while adding to cart', error);
+      navigate("/main/signin")
     }
   };
 
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+      setSuccessMessage("")
+   }, 2000);
+
+   return () => clearTimeout(timer)
+  })
+
   useEffect(() => {
     getProduct();
+
+  
   }, [params.id]);
+
+
+
 
   return (
     <div>
+      {successMessage &&  <p className=" bg-green-500 text-white rounded-md px-4 py-1 my-2">{successMessage}</p>}
+     
     <div className="md:flex gap-3">
       <div className="md:w-1/2" style={{boxSizing: 'border-box'}}>
         <img
@@ -113,13 +139,19 @@ const ProductDetail = () => {
             </button>
           </div>
         </div>
-
-        <button
-          className="bg-slate-950 text-white rounded-md px-2 py-2 w-full"
-          onClick={(addToCart)}
-        >
-          Add to cart
-        </button>
+        {isLoading ? (
+                     <button className=' bg-slate-950 w-full text-white rounded-md px-4 py-2 mt-2 buttonload' >
+                     <i class="fa fa-circle-o-notch fa-spin"></i>Loading
+                 </button>
+                ): (
+                  <button
+                  className="bg-slate-950 text-white rounded-md px-2 py-2 w-full"
+                  onClick={(addToCart)}
+                >
+                  Add to cart
+                </button>
+                )}
+    
 
         <div>
           <span className="text-sm font-bold text-white bg-green-500 rounded-sm px-5">

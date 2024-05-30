@@ -3,9 +3,10 @@ import {FaRegUser} from 'react-icons/fa'
 import { FaRegBell , FaPhone, } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
 import { CiHeart } from "react-icons/ci";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { CartContext } from '../../CartContext';
+import { API_BASE_URL } from '../../apiConfig';
 
 
 
@@ -14,25 +15,65 @@ const Header = () => {
   const {cartItems, loadCartItems} = useContext(CartContext)
   const cartItemsCount = cartItems.length;
 
+
+  const isLoggedIn = localStorage.getItem("username")
+  const navigate = useNavigate()
+  const userRole = localStorage.getItem("role")
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/accounts/logout/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      }
+      })
+
+      if(response.ok) {
+        console.log("Succesifull logout")
+        localStorage.removeItem("username")
+        localStorage.removeItem("access_token")
+        localStorage.removeItem("userId")
+        localStorage.removeItem("role")
+        navigate("/main")
+      } else {
+        console.log("Server error")
+      }
+
+    } catch(error) {
+      console.log("An error occured during out", error)
+    }
+  }
+
   return (
-    <div className=' min-h-[75px] bg-slate-100 px-5 py-2 text-slate-700 '>
+    <div className=' min-h-[75px] bg-slate-100 px-5 py-2 text-slate-700 fixed top-0 w-full mb-[75px] z-50 '>
           <div className=' flex items-center justify-between border-b border-gray-300 pb-2'>
             <p className=' flex items-center gap-3'><FaPhone /> +254 790021016</p>
             <div className=' flex gap-2'>
-              <button className=' rounded-md p-2 bg-slate-950'>signup</button>
-              <button>signin</button>
+              <Link to={`/main/signup`} className=' rounded-md px-3 py-1 bg-orange-500 hover:border hover:border-orange-500 hover:bg-transparent transition-all delay-75 duration-300 hover:text-slate-900 text-white'>signup</Link>
+              {isLoggedIn ? (
+                <button className='hover:bg-orange-500 hover:text-white hover:rounded-md px-2 py-1 transition-all delay-75 duration-300' onClick={handleLogout}>logout</button>
+              ) : (
+                <Link className='hover:bg-orange-500 hover:text-white hover:rounded-md px-2 py-1 transition-all delay-75 duration-300' to={`/main/signin`}>signin</Link>
+              )}
+             
             </div>
           </div>
 
           <div className=' flex items-center justify-between py-3'>
-            <Link to={`/main/`} className=' font-bold text-3xl'>MedSwift</Link>
+            <div>
+            <Link to={`/`} className=' font-bold text-3xl text-orange-500'>MedSwift</Link>
+            <p>Welcome Back {isLoggedIn}</p>
+            </div>
+          
 
-            <input 
-             className=' rounded-md border-slate-300 border px-3 py-2 w-1/3 text-slate-700 outline-none '
-             placeholder='search product here...'
-            />
+           
 
 <div className='flex gap-3'>
+  {userRole === "admin" && <Link to={`/dashboard/product-list`} className=' text-sm rounded-sm px-2  text-white bg-indigo-500'>Dashboard</Link>}
+  
           <Link onClick={loadCartItems} to='/main/shopping-cart'>
             <IoCartOutline size={25} />
             {cartItemsCount > 0 && (
@@ -41,7 +82,7 @@ const Header = () => {
               </span>
             )}
           </Link>
-         <Link  to={`/main/favourites`}><CiHeart size={25} /></Link> 
+         <Link  to={`/favourites`}><CiHeart size={25} /></Link> 
         </div>
           </div>
 

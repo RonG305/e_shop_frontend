@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchCartItems, removeFromCart } from "../../apiConfig";
+import { useNavigate } from "react-router-dom";
 
 const OrderSummary = ({totalCost}) => {
-
-
-
-
+ 
 
   return (
     <div>
@@ -38,9 +35,8 @@ const OrderSummary = ({totalCost}) => {
           </p>
         </div>
 
-        <button className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4">
-          <Link to={`/main/checkout`}>Checkout</Link>
-        </button>
+      
+       
 
         <Link
           to={"/main/product-list"}
