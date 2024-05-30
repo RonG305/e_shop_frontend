@@ -20,10 +20,10 @@ const Sidebar = ({isSidebarOPen}) => {
   return (
     <div className={`fixed top-0 z-50 w-52 h-screen text-sm bg-slate-50 border-r border-gray-200 transform ${isSidebarOPen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-500 ease-in-out`}>
  
-      <h2 className="text-2xl font-semibold p-4">Dashboard</h2>
+      <h2 className="text-2xl font-extrabold  text-orange-500 p-4">Dashboard</h2>
       <nav className="flex-grow">
         <ul>
-          <li className="p-2 font-bold">
+          <li  className="p-2  font-bold ">
             <Link to="/home" className="block">
               Dashboard
             </Link>
