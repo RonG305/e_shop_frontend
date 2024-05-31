@@ -10,7 +10,7 @@ import Dashboard from './Admin/Dashboard/Dashboard';
 
 function App() {
   return (
-    <div className="App h-screen bg-white text-slate-800 font-inter  ">
+    <div className="App h-screen bg-white text-slate-800  font-inter  ">
       <CartProvider>
       <BrowserRouter>
         <Routes>

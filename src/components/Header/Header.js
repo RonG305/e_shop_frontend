@@ -7,12 +7,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { CartContext } from '../../CartContext';
 import { API_BASE_URL } from '../../apiConfig';
+import { LogoutContext } from '../../LogoutContext';
 
 
 
 const Header = () => {
 
   const {cartItems, loadCartItems} = useContext(CartContext)
+  const {handleLogout} = useContext(LogoutContext)
   const cartItemsCount = cartItems.length;
 
 
@@ -21,32 +23,7 @@ const Header = () => {
   const userRole = localStorage.getItem("role")
 
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/accounts/logout/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      }
-      })
-
-      if(response.ok) {
-        console.log("Succesifull logout")
-        localStorage.removeItem("username")
-        localStorage.removeItem("access_token")
-        localStorage.removeItem("userId")
-        localStorage.removeItem("role")
-        navigate("/main")
-      } else {
-        console.log("Server error")
-      }
-
-    } catch(error) {
-      console.log("An error occured during out", error)
-    }
-  }
-
+ 
   return (
     <div className=' min-h-[75px] bg-slate-100 px-5 py-2 text-slate-700 fixed top-0 w-full mb-[75px] z-50 '>
           <div className=' flex items-center justify-between border-b border-gray-300 pb-2'>

@@ -20,6 +20,7 @@ import Favourites from '../../components/Favourites/Favourites'
 import { CartProvider } from '../../CartContext'
 import Receipt from '../../components/CustomerOrders/CustomerOrders.js'
 import CustomerOrders from '../../components/CustomerOrders/CustomerOrders.js'
+import { LogoutProvider } from '../../LogoutContext.js'
 
 const Main = () => {
   return (
@@ -29,7 +30,9 @@ const Main = () => {
     </div>
    <CartProvider>
    <div className=''>
+    <LogoutProvider>
         <Header />
+        </LogoutProvider>
         <div className=' flex flex-col items-center mt-[120px] '>
           <div className=' lg:w-[70%] md:[85%] w-[100%]  p-5 '>
            

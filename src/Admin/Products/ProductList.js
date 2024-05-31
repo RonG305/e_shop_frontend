@@ -107,8 +107,8 @@ const ProductList = () => {
       
 
       <div className=" my-2 border-b border-slate-200 flex items-center justify-between mb-4">
-        <p className='font-semibold text-2xl mb-2'>Product List</p>
-        <button className=' rounded-md text-white bg-indigo-500 px-3 py-1 mb-2'>Add product</button>
+        <p className='font-semibold text-2xl mb-2 text-orange-500'>Product List</p>
+        <Link to={`/dashboard/create-product`} className=' rounded-md text-white bg-indigo-500 px-3 py-1 mb-2'>Add product</Link>
       </div>
 
       <div className=' md:flex items-center justify-between'>

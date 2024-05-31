@@ -4,7 +4,7 @@ import { FaArrowLeft, FaArrowRight, FaEye } from "react-icons/fa";
 
 import { Link, useParams } from "react-router-dom";
 
-const OrderList = () => {
+const RecentOrders = () => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchText, setSearchText] = useState("");
@@ -21,7 +21,7 @@ const OrderList = () => {
         },
       });
       const data = await response.json();
-      setOrders(data);
+      setOrders(data.slice(0, 10));
       console.log(data);
     } catch (error) {
       console.log("An error occured while accesing customer orders", error);
@@ -47,6 +47,7 @@ const OrderList = () => {
 
   const filteredOrders = orders?.filter((order) => {
     return (
+      order.user.toLowerCase().includes(searchText.toLowerCase()) |
       order.order_id.toLowerCase().includes(searchText.toLowerCase()) ||
       order.createdAt.toLowerCase().includes(searchText.toLowerCase()) ||
       order.payment_method.toLowerCase().includes(searchText.toLowerCase()) 
@@ -56,7 +57,7 @@ const OrderList = () => {
   return (
     <div className=" border border-slate-200  rounded-md p-4 w-full overflow-x-auto relative">
       <div className=" my-2 border-b border-slate-200 flex items-center justify-between mb-4">
-        <p className="font-semibold text-2xl mb-2 text-orange-500">Order List</p>
+        <p className="font-semibold text-2xl mb-2 text-orange-500">Recent Orders</p>
         <button className=" rounded-md text-white bg-indigo-500 px-3 py-1 mb-2">
           Download CSV
         </button>
@@ -81,11 +82,11 @@ const OrderList = () => {
               <th className="px-4 py-4 ">Customer</th>
               <th className="px-4 py-4 ">Total Price</th>
               <th className="px-4 py-4 ">Payment method</th>
-              <th className="px-4 py-4 ">payment status</th>
+             
 
               <th className="px-4 py-4 ">delivery status</th>
               <th className="px-4 py-4 ">Total price</th>
-              <th>Actions</th>
+            
             </tr>
           </thead>
           <tbody>
@@ -102,18 +103,7 @@ const OrderList = () => {
                 <td className="px-4 py-3">{order.user}</td>
                 <td className="px-4 py-3">{order.total_price}</td>
                 <td className="px-4 py-3">{order.payment_method}</td>
-                <td className="px-4 py-3">
-                  {order.is_paid}
-                  <span
-                    className={`${
-                      order.is_paid
-                        ? "text-green-400 bg-green-200"
-                        : "text-indigo-500 bg-indigo-200"
-                    }  rounded-md px-2`}
-                  >
-                    {order.is_paid ? "paid" : "unpaid"}
-                  </span>
-                </td>
+                
                 <td className="px-4 py-3">
                   {order.isDelivered}
                   <span
@@ -127,44 +117,16 @@ const OrderList = () => {
                   </span>
                 </td>
                 <td className="px-4 py-3">{order.total_price}</td>
-                <td>
-                  <span className=" flex gap-2 font-bold">
-                    <Link to={`/dashboard/order-view/${order.id}`}>
-                      <FaEye size={18} />
-                    </Link>
-                  </span>
-                </td>
+               
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex gap-2 items-center justify-center my-4 text-white">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-          className=" flex items-center bg-indigo-500 px-2 text-px-2 py-1 gap-2 rounded-md"
-        >
-          <FaArrowLeft />
-          prev
-        </button>
-
-        <p className=" text-slate-800">
-          {" "}
-          page {currentPage} of {Math.ceil(orders.length / itemsPerPage)}
-        </p>
-        <button
-          disabled={currentPage === Math.ceil(orders.length / itemsPerPage)}
-          onClick={() => handlePageChange(currentPage + 1)}
-          className=" flex items-center bg-indigo-500 px-2 text-px-2 py-1 gap-2 rounded-md"
-        >
-          <FaArrowRight />
-          next
-        </button>
-      </div>
+      
     </div>
   );
 };
 
-export default OrderList;
+export default RecentOrders;

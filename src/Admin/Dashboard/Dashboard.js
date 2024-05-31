@@ -12,6 +12,10 @@ import CreateCategory from '../Category/CreateCategory'
 import UpdateCategory from '../Category/UpdateCategory'
 import CategoryDetail from '../Category/CategoryDetail'
 import OrderList from '../Orders/OrderList'
+import OrderView from '../Orders/OrderView'
+import Customers from '../Customers/Customers'
+import { LogoutProvider } from '../../LogoutContext'
+import Home from './Home'
 
 const Dashboard = () => {
 
@@ -21,10 +25,12 @@ const Dashboard = () => {
 
   return (
     <div className=' overflow-x-hidden'>
+      <LogoutProvider>
        <Navbar  handleSidebar={handleSidebar} isSidebarOPen={isSidebarOPen} />
-        <Sidebar isSidebarOPen={isSidebarOPen} />
-        <div className={`${isSidebarOPen ? "md:ml-56 " : "ml-0"}  transition-all duration-300 ease-in-out`}>
+        <Sidebar handleSidebar={handleSidebar} isSidebarOPen={isSidebarOPen} />
+        <div className={`${isSidebarOPen ? "md:ml-56 " : "ml-0"}  transition-all duration-300 ease-in-out px-4 mt-4`}>
       <Routes>
+        <Route path='/home' element={<Home />} />
         <Route path='/product-list' element={<ProductList />}/>
         <Route path='/create-product' element={<CreateProduct />} />
         <Route path='/update-product/:id' element={<UpdateProduct />} />
@@ -37,8 +43,11 @@ const Dashboard = () => {
 
 
         <Route path='/orders' element={<OrderList />} />
+        <Route path='/order-view/:id' element={<OrderView />} />
+        <Route path='/customers' element={<Customers />} />
         </Routes>
         </div>
+        </LogoutProvider>
       
     </div>
   )

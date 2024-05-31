@@ -10,7 +10,7 @@ import DeleteConfirmation from '../DeleteConfirmation/DeleteConfirmation';
 
 
 
-const Customers = () => {
+const RecentCustomers = () => {
     const [customers, setCustomers] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [searchText, setSearchText] = useState("")
@@ -54,7 +54,7 @@ const Customers = () => {
           const data = await response.json();
           console.log(data);
     
-          setCustomers(data);
+          setCustomers(data.slice(0, 10));
          
         } catch (error) {
           console.log("Error while fetching baby care customers");
@@ -77,7 +77,7 @@ const Customers = () => {
       
 
       <div className=" my-2 border-b border-slate-200 flex items-center justify-between mb-4">
-        <p className='font-semibold text-2xl mb-2 text-orange-500'>Customers List</p>
+        <p className='font-semibold text-2xl mb-2 text-orange-500'>Recent customers</p>
         <Link to={`/dashboard/create-product`} className=' rounded-md text-white bg-indigo-500 px-3 py-1 mb-2'>Add product</Link>
       </div>
 
@@ -103,7 +103,7 @@ const Customers = () => {
             <th className="px-4 py-4 ">First name</th>
             <th className="px-4 py-4 ">Last Name</th>
             <th className="px-4 py-4 ">Email address</th>
-            <th>Date Joined</th>
+        
         
           </tr>
         </thead>
@@ -118,7 +118,7 @@ const Customers = () => {
               </td>
               <td className="px-4 py-3">{customer.last_name}</td>
               <td className="px-4 py-3">{customer.email}</td>
-              <td className="px-4 py-3">{customer.date_joined}</td>
+              
              
               
             </tr>
@@ -129,22 +129,11 @@ const Customers = () => {
       </div>
       
 
-      <div className="flex gap-2 items-center justify-center my-4 text-white">
-      <button
-            disabled={currentPage === 1}
-            onClick={() => handlePageChange(currentPage - 1)}
-             className=" flex items-center bg-indigo-500 px-2 text-px-2 py-1 gap-2 rounded-md"><FaArrowLeft />prev</button>
-             
-            <p className=' text-slate-800'> page {currentPage} of {Math.ceil(customers.length / itemsPerPage)}</p>
-            <button
-              disabled={currentPage === Math.ceil(customers.length / itemsPerPage)}
-              onClick={() => handlePageChange(currentPage + 1)}
-            className=" flex items-center bg-indigo-500 px-2 text-px-2 py-1 gap-2 rounded-md"><FaArrowRight />next</button>
-      </div>
+     
 
    
     </div>
   )
 }
 
-export default Customers
+export default RecentCustomers

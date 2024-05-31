@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 
 
 
+
 const DeleteConfirmation = ({setIsModalOpen, deleteCategory, categoryId}) => {
   return (
     <div className=' rounded-md md:w-1/3 absolute top-10 bg-slate-50 p-4 border border-slate-200'>
@@ -24,6 +25,7 @@ const CategoryList = () => {
     const [categories, setCategories] = useState([])
     const [currentPage, setCurrentPage] = useState(1)
     const [searchText, setSearchText] = useState("")
+    const [btnLoading, setBtnLoading] = useState(false);
    
 
     const [isModalOPen, setIsModalOpen] = useState(false)
@@ -78,7 +80,7 @@ const CategoryList = () => {
       const deleteCategory = async(id) => {
         try {
 
-          const response = await fetch(`${API_BASE_URL}/api/categories/delete-category/${id}/`, {
+          const response = await fetch(`${API_BASE_URL}/api/category/delete-category/${id}/`, {
             method: 'DELETE',
             headers: {
               'Authorization': `Bearer ${localStorage.getItem("access_token")}`
@@ -114,7 +116,7 @@ const CategoryList = () => {
       
 
       <div className=" my-2 border-b border-slate-200 flex items-center justify-between mb-4">
-        <p className='font-semibold text-2xl mb-2'>Category List</p>
+        <p className='font-semibold text-2xl mb-2 text-orange-500'>Category List</p>
         <Link to={`/dashboard/create-category/`} className=' rounded-md text-white bg-indigo-500 px-3 py-1 mb-2'>Add category</Link>
       </div>
 
