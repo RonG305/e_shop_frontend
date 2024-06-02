@@ -11,7 +11,7 @@ const RevenueCard = () => {
         <LuDollarSign className=' text-indigo-500' size={25} />
         </div>
        
-        <h4 className=' text-xl font-extrabold'>Kshs 34,924.28</h4>
+        <h4 className=' text-xl font-extrabold'>Kshs 264,924.28</h4>
         <p className=' text-sm flex items-center gap-2'><span className=' bg-green-200 text-green-600 flex items-center gap-2 w-fit text-xs px-3 py-1 rounded-sm'><FaArrowUp /> 20%</span> from previous month</p>
         
     </div>

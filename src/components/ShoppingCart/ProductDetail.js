@@ -155,14 +155,19 @@ const ProductDetail = () => {
 
         <div>
           <span className="text-sm font-bold text-white bg-green-500 rounded-sm px-5">
-            {product.inventory_quantity} pieces
+            {product.inventory_quantity} pieces available
           </span>
         </div>
 
-        <div className="my-3">
-          <h4 className="font-extrabold text-xl">Description</h4>
-          <p className="text-sm">{product.description}</p>
-        </div>
+        <div className="my-3 ">
+  <h4 className="font-extrabold text-xl">Description</h4>
+  <pre className="whitespace-pre-wrap break-words w-full overflow-auto">
+    <code className="font-inter w-full break-words">
+      {product.description}
+    </code>
+  </pre>
+</div>
+
       </div>
 
 

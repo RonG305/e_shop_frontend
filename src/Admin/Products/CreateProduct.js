@@ -9,6 +9,7 @@ const CreateProduct = () => {
   const [formData, setFormData] = useState({
     name: "",
     category: "",
+    old_price: "",
     price: "",
     image: null,
     inventory_quantity: "",
@@ -46,6 +47,7 @@ const CreateProduct = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('name', formData.name);
     formDataToSend.append('category', formData.category);
+    formDataToSend.append('old_price', formData.old_price)
     formDataToSend.append('price', formData.price);
     formDataToSend.append('inventory_quantity', formData.inventory_quantity);
     formDataToSend.append('description', formData.description);
@@ -104,6 +106,19 @@ const CreateProduct = () => {
               ))}
             </select>
           </div>
+
+          <div className='flex flex-col gap-1 mb-3'>
+            <label>Old Price</label>
+            <input
+              type='number'
+              name='old_price'
+              value={formData.old_price}
+              onChange={handleChange}
+              className='rounded-md px-3 py-2 border border-slate-300 outline-indigo-500'
+            />
+          </div>
+
+
           <div className='flex flex-col gap-1 mb-3'>
             <label>Price</label>
             <input

@@ -52,12 +52,19 @@ const PainManagement = () => {
               <span><FaRegHeart /></span>
             </div>
     
-            <img className=" rounded-md w-full h-full" src={`${API_BASE_URL}/${product.image}`} alt='Product' loading="lazy" />
-          </div>
-    
-          <div>
-            <h4 className=" font-medium text-slate-950 text-xl">{product.name}</h4>
-            <p className=" font-light">Ksh {product.price} </p>
+            <img
+                      className=" rounded-md w-full h-full object-cover"
+                      src={`${API_BASE_URL}/${product?.image}`}
+                      alt={product?.name}
+                      loading="lazy"
+                    />
+              </div>
+        
+              <div>
+              <h4 className=" font-bold text-slate-950 ">
+                      {product?.name}
+                    </h4>
+                <p className=" font-medium">Ksh {product.price} </p>
           </div>
         </Link>
       ))}

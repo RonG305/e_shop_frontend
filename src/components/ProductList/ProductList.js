@@ -2,16 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
-import { addToCart } from "../../CartApi";
 import { CartContext } from "../../CartContext";
 
-import Spinner from "react-bootstrap/Spinner";
 
-function BorderExample() {
-  return <Spinner animation="border" />;
-}
 
-const Categories = ({ selectedCategory, setSelectedCategory }) => {
+
+const Categories = ({  setSelectedCategory }) => {
   const [categories, setCategories] = useState([]);
 
   const handleCategory = (categoryName) => {
@@ -35,7 +31,7 @@ const Categories = ({ selectedCategory, setSelectedCategory }) => {
   return (
     <div className="sidebar">
       <h3 className="font-bold text-xl">Categories</h3>
-      <ul className=" flex gap-2 md:flex-col flex-wrap ">
+      <ul className=" flex gap-2 md:flex-col flex-wrap text-sm font-medium ">
         {categories.map((category, index) => (
           <li
             className=" md:border-b border-slate-300 md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white bg-slate-900 md:text-slate-900 text-white  hover:bg-slate-700 hover:text-white cursor-pointer transition-all delay-150 ease-out"
@@ -56,7 +52,7 @@ const ProductList = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [randomProduct, setRandomProduct] = useState({});
-  const userId = localStorage.getItem("userId");
+
   const { loadCartItems } = useContext(CartContext);
 
   const [searchText, setSearchText] = useState("")
@@ -124,7 +120,7 @@ const ProductList = () => {
   }, [successMessage]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const itemsPerPage = 12;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -178,6 +174,9 @@ const ProductList = () => {
     filterProductsByCategory(selectedCategory);
   }, [selectedCategory]);
 
+
+  const addToCartButton = " mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-green-500 text-white rounded-full"
+
   return (
     <div>
      
@@ -197,10 +196,10 @@ const ProductList = () => {
     
 
       {products ? (
-        <div className=" w-full h-52 bg-slate-300">
-          <image
-            src={`${API_BASE_URL}/${randomProduct?.image}`}
-            className=" w-full "
+        <div className=" w-full h-64 rounded-md mb-4">
+          <img
+            src={`${API_BASE_URL}/${randomProduct.image}`}
+            className=" w-full h-full object-cover rounded-md"
             alt={randomProduct?.name}
           />
         </div>
@@ -208,7 +207,7 @@ const ProductList = () => {
         <div className=" w-full h-52 bg-slate-300"></div>
       )}
 
-      <div className=" md:flex gap-3">
+      <div className=" md:flex gap-8">
         <Categories
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
@@ -218,13 +217,13 @@ const ProductList = () => {
           <h3 className=" font-bold text-2xl mb-4 text-slate-950">
             {selectedCategory} products
           </h3>
-          <div>Products Loading ....</div>
+     
           <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto">
             {itemsToShow?.map((product, index) => (
-              <div key={index}>
-                <div className=" relative rounded-md h-44 ">
+              <div className={` ${product.inventory_quantity < 1 ? "hidden" : "block"} mb-4`} key={index}>
+                <div className={` relative rounded-md h-44 mb-4 bg-slate-200 `}>
                   <div class="absolute top-2 left-0 px-2 py-1 bg-orange-500 text-xs font-bold text-white rounded-tr-md rounded-br-md">
-                    <span>20% discount</span>
+                    <span>{(((product.old_price) - (product.price)) / (product.old_price) * 100).toFixed(1) } % Discount</span>
                   </div>
                   <div class="absolute top-2 right-0 px-2 py-1text-xs font-bold text-white  ">
                     <span>
@@ -234,7 +233,7 @@ const ProductList = () => {
 
                   <Link to={`/main/product-detail/${product?.id}`}>
                     <img
-                      className=" rounded-md w-full h-full"
+                      className=" rounded-md w-full h-full object-cover"
                       src={`${API_BASE_URL}/${product?.image}`}
                       alt={product?.name}
                       loading="lazy"
@@ -249,10 +248,10 @@ const ProductList = () => {
                         {successMessage}
                       </p>
                     )}
-                    <h4 className=" font-medium text-slate-950 text-xl">
+                    <h4 className=" font-bold text-slate-950 ">
                       {product?.name}
                     </h4>
-                    <p className=" font-light">Ksh {product?.price} </p>
+                    <p className=" font-medium text-sm">Ksh {product?.price} </p>
                   </div>
 
                   <div
@@ -263,8 +262,11 @@ const ProductList = () => {
                         quantity: 1,
                         cost: product.price,
                       })
+                      
                     }
-                    className=" mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-green-500 text-white rounded-full"
+                    className={addToCartButton}
+
+                    disabled={() => product.inventory_quantity <= 2}
                   >
                     <span>+</span>
                   </div>

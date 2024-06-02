@@ -53,7 +53,7 @@ const OrderView = () => {
             <div className=' grid grid-cols-3 gap-2 '>
                 {order.order_items?.map((orderItem) => (
                     <div>
-                    <img loading='lazy' className=' rounded-md md:max-w-52 w-28' src={`${API_BASE_URL}/${orderItem.product.image}`} />
+                    <img loading='lazy' className=' rounded-md md:max-w-52 w-28 hover:scale-150' src={`${API_BASE_URL}/${orderItem.product.image}`} />
                     <p className=' text-sm'>{orderItem.product.name}</p>
                     <p className=' text-sm'>Total :{orderItem.quantity}</p>
                 </div>

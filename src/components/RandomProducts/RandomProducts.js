@@ -54,7 +54,7 @@ const RandomProducts = () => {
               <span><FaRegHeart /></span>
             </div>
     
-            <img className=" rounded-md w-full h-full" src={`${API_BASE_URL}/${product.image}`} alt='Product' loading="lazy" />
+            <img className=" rounded-md w-full h-full object-cover" src={`${API_BASE_URL}/${product.image}`} alt='Product' loading="lazy" />
           </div>
     
           <div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../apiConfig";
 import { FaArrowLeft, FaArrowRight, FaEye } from "react-icons/fa";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -10,7 +10,7 @@ const OrderList = () => {
   const [searchText, setSearchText] = useState("");
 
 
-  const params = useParams()
+
 
   const getCustomerOrders = async () => {
     try {
@@ -21,7 +21,7 @@ const OrderList = () => {
         },
       });
       const data = await response.json();
-      setOrders(data);
+      setOrders(data.orders);
       console.log(data);
     } catch (error) {
       console.log("An error occured while accesing customer orders", error);

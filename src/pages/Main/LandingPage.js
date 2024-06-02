@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import PopularCategories from "../../components/PopularCategories/PopularCategories";
-import TopRated from "../../components/TopRated/TopRated";
+import React  from "react";
+
+
 import Banner from "../../components/Banner/Banner";
 import CorouselComponent from "../../components/Courousel/Courousel";
 import OverTheCounter from "../../components/OTC/OverTheCounter";
@@ -11,8 +11,8 @@ import MedicalProducts from "../../components/MedicalProducts/MedicalProducts";
 import PainManagement from "../../components/PainManagement/PainManagement";
 import DigestiveHealth from "../../components/DigestiveHealth/DigestiveHealth";
 import DermatologicalProducts from "../../components/Dermatological/Dermatology";
-import { API_BASE_URL } from "../../apiConfig";
-import { useParams } from "react-router-dom";
+import RecentProducts from "../../components/RecentProducts/RecentProduct";
+
 
 
 
@@ -26,7 +26,7 @@ const LandingPage = () => {
   return (
     <div>
       <CorouselComponent />
-      <TopRated />
+      <RecentProducts />
       <DermatologicalProducts />
       <OverTheCounter />
       <PersonalCare />

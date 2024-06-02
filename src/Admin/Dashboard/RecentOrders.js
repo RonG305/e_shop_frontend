@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../apiConfig";
-import { FaArrowLeft, FaArrowRight, FaEye } from "react-icons/fa";
 
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const RecentOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -10,7 +9,7 @@ const RecentOrders = () => {
   const [searchText, setSearchText] = useState("");
 
 
-  const params = useParams()
+ 
 
   const getCustomerOrders = async () => {
     try {
@@ -21,8 +20,8 @@ const RecentOrders = () => {
         },
       });
       const data = await response.json();
-      setOrders(data.slice(0, 10));
-      console.log(data);
+      setOrders(data.orders.slice(0, 10));
+      console.log(data.orders);
     } catch (error) {
       console.log("An error occured while accesing customer orders", error);
     }
@@ -37,9 +36,7 @@ const RecentOrders = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+
 
   const handleSearchChange = (event) => {
     setSearchText(event.target.value);

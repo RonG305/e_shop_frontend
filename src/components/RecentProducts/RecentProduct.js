@@ -5,31 +5,31 @@ import { API_BASE_URL } from '../../apiConfig'
 
 
 
-const OverTheCounter = () => {
+const RecentProducts = () => {
 
-  const [otcProducts, setOtcProducts] = useState([])
+  const [recentProducts, setRecentProducts] = useState([])
 
-  const getOtcProducts = async () => {
+  const getRecentProducts = async () => {
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/products/product-category/?category=over-the-counter`
+        `${API_BASE_URL}/api/products/products-list`
       );
       const data = await response.json();
-      console.log(data.slice(0, 4));
-      setOtcProducts(data.slice(0, 4));
+      console.log(data.slice(0, 8));
+      setRecentProducts(data.slice(0, 8));
     } catch (error) {
-      console.log("Error while fetching baby care prodcuts");
+      console.log("Error while fetching recent  prodcuts");
     }
   };
 
   useEffect(() => {
-    getOtcProducts();
+    getRecentProducts();
   }, []);
 
   return (
-    <div>
+    <div className=' mt-3'>
     <div className=" flex items-center justify-between">
-    <h5 className=" font-bold text-xl my-3">Over the Counter Products</h5>
+    <h5 className=" font-bold text-xl my-3">Recent Products for you</h5>
     <Link className=" text-blue-500 hover:underline font-bold" to={`/main/product-list`}>View all</Link>
     </div>
     
@@ -38,7 +38,7 @@ const OverTheCounter = () => {
     
 
     <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto">
-      {otcProducts.map((product, index) => (
+      {recentProducts.map((product, index) => (
           <Link to={`/main/product-detail/${product.id}`} key={index}>
           <div className=" relative rounded-md  h-40 ">
             <div class="absolute top-2 left-0 px-2 py-1 bg-green-700 text-xs font-bold text-white rounded-tr-md rounded-br-md">
@@ -73,4 +73,4 @@ const OverTheCounter = () => {
   )
 }
 
-export default OverTheCounter
+export default RecentProducts
