@@ -28,8 +28,8 @@ const ProductCard = () => {
       <img src='/images/med2.png' alt='product-name' />
 
       <div className={` ${isHovered? 'block transition-all delay-150 ease-out ' : 'md:hidden'} block  w-full text-sm`}>
-        <Link to={`/main/shopping-cart`} className=' bg-slate-700 text-white px-4 py-3 flex gap-2'><FaShoppingCart />Add to cart</Link>
-        <button className=' bg-slate-700 text-white px-4 py-3 flex gap-2 items-center '><FaHeart />Add to wishlist</button>
+        <Link to={`/main/shopping-cart`} className=' bg-slate-900 text-white px-4 py-3 flex gap-2'><FaShoppingCart />Add to cart</Link>
+        <button className=' bg-slate-900 text-white px-4 py-3 flex gap-2 items-center '><FaHeart />Add to wishlist</button>
       </div>
 
       <div>

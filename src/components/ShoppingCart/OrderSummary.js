@@ -13,25 +13,25 @@ const OrderSummary = ({totalCost}) => {
         <div className="border-b border-slate-200 mb-4">
           <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
             <p>Subtotal</p>
-            <p>${totalCost.toFixed(2)}</p>
+            <p>Kshs {totalCost.toFixed(2)}</p>
           </div>
           {/* Add more summary items here if needed */}
         </div>
 
         <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
           <p>Shipping estimate</p>
-          <p>$3.00</p>
+          <p>kshs 200.00</p>
         </div>
 
         <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
           <p>Tax Estimate</p>
-          <p>$2.00</p>
+          <p>Kshs 70.00</p>
         </div>
 
         <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
           <p className="font-bold text-slate-950">Total Order</p>
           <p className="font-bold text-slate-950">
-            ${(totalCost + 3 + 2).toFixed(2)}
+            Kshs {(totalCost + 300 + 70).toFixed(2)}
           </p>
         </div>
 

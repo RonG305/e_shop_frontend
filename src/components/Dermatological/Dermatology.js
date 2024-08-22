@@ -40,10 +40,10 @@ const DermatologicalProducts = ({product}) => {
       <Link className=" text-blue-500 hover:underline font-bold" to={`/main/product-list`}>View all</Link>
       </div>
 
-      <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto">
+      <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto my-8">
         {dermatologyProducts.map((product, index) => (
-             <Link to={`/main/product-detail/${product.id}`} key={index}>
-             <div className=" relative rounded-md  h-40 ">
+             <Link className=" my-8" to={`/main/product-detail/${product.id}`} key={index}>
+             <div className=" relative rounded-md  h-56 ">
                <div class="absolute top-2 left-0 px-2 py-1 bg-orange-500 text-xs font-bold text-white rounded-tr-md rounded-br-md">
                  <span>20% discount</span>
                </div>

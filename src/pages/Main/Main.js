@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
+
 
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Header from '../../components/Header/Header'
@@ -21,11 +22,14 @@ import { CartProvider } from '../../CartContext'
 
 import CustomerOrders from '../../components/CustomerOrders/CustomerOrders.js'
 import { LogoutProvider } from '../../LogoutContext.js'
+import Loader from '../../Loader.js'
+import POS from '../../components/ShoppingCart/POS.js'
+import Receipt from '../../components/ShoppingCart/Receipt.js'
 
 const Main = () => {
   return (
    <div>
-    <div className=' hidden overflow-x-hidden'>
+    <div className=' hidden overflow-x-hidden scroll-smooth'>
     <Sidebar  />
     </div>
    <CartProvider>
@@ -34,7 +38,7 @@ const Main = () => {
         <Header />
         </LogoutProvider>
         <div className=' flex flex-col items-center mt-[120px] overflow-x-hidden '>
-          <div className=' lg:w-[70%] md:[85%] w-[100%]  p-5 '>
+          <div className=' lg:w-[80%] md:[85%] w-[100%]  p-5 '>
            
        
       
@@ -50,6 +54,9 @@ const Main = () => {
               <Route path='/shopping-cart' element={<ShoppingCart />} />
               <Route path='/checkout' element={<CheckoutPage />} />
               <Route path="/my-orders" element={<CustomerOrders />} />
+              <Route path='loader' element={<Loader />} />
+              <Route path='/pos/' element={<POS />} />
+              <Route path='/receipt' element={<Receipt />} />
 
           </Routes>
           </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate  } from 'react-router-dom'
 import { API_BASE_URL } from '../../apiConfig'
+import { FaEye, FaRegEyeSlash } from 'react-icons/fa6'
 
 
 
@@ -8,6 +9,15 @@ const Signup = () => {
 
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+
+
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword)
+    }
+
 
     const [userData, setUserData] = useState({
         username: "",
@@ -49,10 +59,12 @@ const Signup = () => {
               
             } else {
                 console.log("Server error")
+                setErrorMessage("sorry! your passwords do not match")
             }
 
         } catch(error) {
             console.log("Error while trying to login", error)
+            setErrorMessage("sorry! system experienced some issues, try again later!")
         }
 
     }
@@ -64,6 +76,7 @@ const Signup = () => {
 
         
         const timer = setTimeout(() => {
+            setErrorMessage("")
             setIsLoading(false)
         }, 4000);
 
@@ -72,7 +85,8 @@ const Signup = () => {
 
 
     const styles = {
-        inputStyle: "rounded-md outline-blue-600 border px-2 py-1 border-slate-300 w-full"
+        inputStyles : "rounded-md outline-blue-600 border px-2 py-1 border-slate-300 w-full",
+        passwordStyles:  "rounded-md   w-full flex gap-2 items-center"
     }
 
 
@@ -81,6 +95,7 @@ const Signup = () => {
     <div className=' flex items-center justify-center mt-4 text-slate-950 px-2'>
         <div className='md:w-[500px] p-8  rounded-md border border-slate-300 '>
         <form onSubmit={handleSubmit}  className=''>
+        {errorMessage && <p className=' bg-red-400 rounded-md px-2 py-1 '>{errorMessage}</p>}
             <div className=' flex flex-col gap-2'>
                 <h4 className=' font-bold text-2xl text-center my-4'>Create MedSwift account</h4>
                 <div>
@@ -89,7 +104,7 @@ const Signup = () => {
                     name='username'
                     value={userData.username}
                     onChange={handleChange}
-                    className={styles.inputStyle}
+                    className={styles.inputStyles}
                     required
                     />
                 </div>
@@ -100,7 +115,7 @@ const Signup = () => {
                     name='email'
                     value={userData.email}
                     onChange={handleChange}
-                        className={styles.inputStyle}
+                        className={styles.inputStyles}
                         required
                     />
                 </div>
@@ -111,7 +126,7 @@ const Signup = () => {
                     name='first_name'
                     value={userData.first_name}
                     onChange={handleChange}
-                        className={styles.inputStyle}
+                        className={styles.inputStyles}
                         required
                         />
                 </div>
@@ -123,31 +138,53 @@ const Signup = () => {
                     name='last_name'
                     value={userData.last_name}
                     onChange={handleChange}
-                        className={styles.inputStyle}
+                        className={styles.inputStyles}
                         required
                         />
                 </div>
 
                 <div>
                     <p>Enter password</p>
+                    <div className={styles.passwordStyles}>
                     <input
+                    type={`${showPassword ? "text": "password"}`}
                     name='password'
                     value={userData.password}
                     onChange={handleChange}
-                        className={styles.inputStyle}
+                        className={styles.inputStyles}
                         required
                         />
+
+                        {showPassword ? (
+                                 <FaEye onClick={handleShowPassword} size={20} className=' text-slate-700 cursor-pointer ' />
+                        ): (
+                            <FaRegEyeSlash onClick={handleShowPassword} size={20} className=' text-slate-700 cursor-pointer '/>
+                        )}
+                        </div>
+
                 </div>
 
                 <div>
-                    <p>Re-enter password</p>
+                    <p>Enter password</p>
+                    <div className={styles.passwordStyles}>
                     <input
+                    type={`${showPassword ? "text": "password"}`}
                     name='password2'
                     value={userData.password2}
                     onChange={handleChange}
-                        className={styles.inputStyle}
+                        className=" rounded-md w-full h-full border border-slate-300 outline-indigo-500"
                         required
                         />
+
+                       
+                        {showPassword ? (
+                                 <FaEye onClick={handleShowPassword} size={20} className=' text-slate-700 cursor-pointer ' />
+                        ): (
+                            <FaRegEyeSlash onClick={handleShowPassword} size={20} className=' text-slate-700 cursor-pointer '/>
+                        )}
+                        
+                        </div>
+
                 </div>
                 
 

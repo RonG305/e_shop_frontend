@@ -45,7 +45,7 @@ const ShoppingCart = () => {
               cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center gap-4 justify-between border-b border-slate-300 py-2 px-4"
+                  className="flex items-center gap-4  border-b border-slate-300 py-2 px-4"
                 >
                   <img
                     src={`${API_BASE_URL}/${item.image}`}
@@ -57,12 +57,12 @@ const ShoppingCart = () => {
                       {item.product_name}
                     </p>
                     <p className="text-slate-700">Quantity: {item.quantity}</p>
-                    <p className="text-slate-700">${item.cost}</p>
+                    <p className="text-slate-700">Kshs {item.cost}</p>
                     <p className="text-slate-700">
                       <span className="font-bold text-slate-950">
                         Total cost:
                       </span>{" "}
-                      ${item.cost * item.quantity}
+                      Kshs {item.cost * item.quantity}
                     </p>
                     <button
                       className="bg-red-500 px-2 text-white rounded-sm text-sm"

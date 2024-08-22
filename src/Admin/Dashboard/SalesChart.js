@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 const SalesChart = () => {
   const series = [{
     name: 'Sales',
-    data: [12000, 14000, 13000, 15000, 17000, 16000, 18000, 20000, 19000, 22000, 24000, 23000]  // Sample sales data for each month
+    data: [12000, 14000, 13000, 15000, 17000, 16000, 18000, 20000, 19000, 22000, 24000, 23000]  
   }];
 
   const options = {

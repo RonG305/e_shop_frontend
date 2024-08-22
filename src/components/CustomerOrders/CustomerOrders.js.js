@@ -3,19 +3,19 @@ import { API_BASE_URL } from "../../apiConfig";
 
 const CustomerOrders = () => {
 
-  const [orders, setOrders] = useState([])
+  const [order, setOrder] = useState({})
 
 
   const getCustomerOrders  = async() => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/orders/getOrder`, {
+      const response = await fetch(`${API_BASE_URL}/api/orders/getUserOrder`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('access_token')}`
         }
       })
       const data = await response.json()
-      setOrders(data)
+      setOrder(data)
       console.log(data)
 
     } catch(error) {
@@ -49,7 +49,7 @@ const CustomerOrders = () => {
 
             <tbody>
 
-              {orders.map((order) => (
+             
                   <tr className="border-b border-slate-200">
                   <td className=" px-2 py-4">{order.order_id}</td>
                   <td className=" px-2 py-4">{order.createdAt}</td>
@@ -57,7 +57,7 @@ const CustomerOrders = () => {
                   <td className=" px-2 py-4">{order.payment_method}</td>
                   <td className=" px-2 py-4"><span className={` ${order.isDelivered ? "bg-green-500 text-white": "bg-yellow-400"}  px-1 rounded-sm`}>{order.isDelivered? "delivered": "pending"}</span></td>
               </tr>
-              ))}
+             
                 
 
               

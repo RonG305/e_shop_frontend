@@ -16,6 +16,7 @@ import OrderView from '../Orders/OrderView'
 import Customers from '../Customers/Customers'
 import { LogoutProvider } from '../../LogoutContext'
 import Home from './Home'
+import Transactions from '../Transactions/Transactions'
 
 const Dashboard = () => {
 
@@ -45,6 +46,7 @@ const Dashboard = () => {
         <Route path='/orders' element={<OrderList />} />
         <Route path='/order-view/:id' element={<OrderView />} />
         <Route path='/customers' element={<Customers />} />
+       <Route path='/transactions' element={<Transactions />} />
         </Routes>
         </div>
         </LogoutProvider>

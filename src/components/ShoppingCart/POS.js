@@ -1,49 +1,35 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
 import { useCart } from "./CartContext";
-import RandomProducts from "../RandomProducts/RandomProducts";
-import { CartContext } from "../../CartContext";
+import { Html5QrcodeScanner } from "html5-qrcode";
 
-const ProductDetail = () => {
+const POS = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const params = useParams();
-  const { dispatch } = useCart();
-  const userId = localStorage.getItem("userId");
-
   const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
+  const { loadCartItems } = useCart();
 
-  const { loadCartItems } = useContext(CartContext);
+  const userId = localStorage.getItem("userId");
 
-  const addQuantity = () => {
-    setQuantity((prevQuantity) => prevQuantity + 1);
-  };
-
-  const removeQuantity = () => {
-    if (quantity === 0) {
-      return null;
-    }
-    setQuantity((prevQuantity) => prevQuantity - 1);
-  };
-
-  const getProduct = async () => {
+  const getProductByBarcode = async (barcode) => {
     try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/products/product/${params.id}/`
-      );
+      const response = await fetch(`${API_BASE_URL}/api/products/barcode/${barcode}/`);
+      if (!response.ok) {
+        throw new Error("Product not found");
+      }
       const data = await response.json();
       setProduct(data);
+      addToCart(data);
     } catch (error) {
-      console.log("An error occurred while fetching product", error);
+      console.log("An error occurred while fetching the product by barcode", error);
     }
   };
 
-  const addToCart = async () => {
+  const addToCart = async (product) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/cart/cart/add/`, {
         method: "POST",
@@ -64,10 +50,8 @@ const ProductDetail = () => {
       }
 
       const data = await response.json();
-      console.log(data);
       setIsLoading(true);
-
-      setSuccessMessage("added to cart succesifully");
+      setSuccessMessage("Added to cart successfully");
       loadCartItems();
     } catch (error) {
       console.error("An error occurred while adding to cart", error);
@@ -76,34 +60,34 @@ const ProductDetail = () => {
   };
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      setSuccessMessage("");
-    }, 2000);
+    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+    
+    scanner.render(
+      (result) => {
+        scanner.clear();
+        getProductByBarcode(result);
+      },
+      (error) => {
+        console.error("Error scanning barcode:", error);
+      }
+    );
 
-    return () => clearTimeout(timer);
-  });
-
-  useEffect(() => {
-    getProduct();
-  }, [params.id]);
+    return () => {
+      scanner.clear();
+    };
+  }, []);
 
   return (
     <div>
       {successMessage && (
-        <p className=" bg-green-500 text-white rounded-md px-4 py-1 my-2">
+        <p className="bg-green-500 text-white rounded-md px-4 py-1 my-2">
           {successMessage}
         </p>
       )}
 
       <div className="md:flex gap-3 md:min-h-[70vh]">
         <div className="md:w-1/2" style={{ boxSizing: "border-box" }}>
-          <img
-            className="w-full md:h-[70vh] object-cover rounded-md hover:scale-125 transition-all delay-150 ease-in-out"
-            src={`${API_BASE_URL}/${product.image}`}
-            alt="product"
-            loading="lazy"
-          />
+          <div id="reader" style={{ width: "100%" }}></div>
         </div>
 
         <div className="md:w-1/2 my-4">
@@ -112,10 +96,7 @@ const ProductDetail = () => {
             Kshs {product.price}
           </p>
 
-       
-        
-
-          <div className="my-3 ">
+          <div className="my-3">
             <h4 className="font-extrabold text-xl">Description</h4>
             <pre className="whitespace-pre-wrap break-words w-full overflow-auto">
               <code className="font-inter w-full break-words">
@@ -124,23 +105,22 @@ const ProductDetail = () => {
             </pre>
           </div>
 
-
-
           <div className="my-3">
             <h3>Quantity</h3>
             <div className="flex">
               <button
-                onClick={removeQuantity}
+                onClick={() => setQuantity((prev) => (prev > 1 ? prev - 1 : 1))}
                 className="px-5 py-2 bg-slate-950 rounded-bl-md rounded-tl-md text-white"
               >
                 -
               </button>
               <input
                 value={quantity}
+                readOnly
                 className="text-slate-700 border border-slate-200 p-2"
               />
               <button
-                onClick={addQuantity}
+                onClick={() => setQuantity((prev) => prev + 1)}
                 className="px-5 py-2 bg-slate-950 rounded-br-md rounded-tr-md text-white"
               >
                 +
@@ -148,15 +128,14 @@ const ProductDetail = () => {
             </div>
           </div>
 
-
           {isLoading ? (
-            <button className=" bg-slate-950 w-full text-white rounded-md px-4 py-2 mt-2 buttonload">
-              <i class="fa fa-circle-o-notch fa-spin"></i>Loading
+            <button className="bg-slate-950 w-full text-white rounded-md px-4 py-2 mt-2 buttonload">
+              <i className="fa fa-circle-o-notch fa-spin"></i> Loading
             </button>
           ) : (
             <button
               className="bg-slate-950 text-white rounded-md px-2 py-2 w-full"
-              onClick={addToCart}
+              onClick={() => addToCart(product)}
             >
               Add to cart
             </button>
@@ -167,16 +146,10 @@ const ProductDetail = () => {
               {product.inventory_quantity} pieces available
             </span>
           </div>
-
-
         </div>
       </div>
-
-      <h3 className=" text-2xl font-bold my-3">Products you may also like</h3>
-
-      <RandomProducts />
     </div>
   );
 };
 
-export default ProductDetail;
+export default POS;

@@ -15,6 +15,7 @@ const UpdateProduct = () => {
     image: null,
     inventory_quantity: "",
     description: "",
+    barcode: ""
   });
 
 
@@ -67,6 +68,7 @@ const UpdateProduct = () => {
     formDataToSend.append('inventory_quantity', formData.inventory_quantity);
     formDataToSend.append('description', formData.description);
     formDataToSend.append('image', formData.image);
+    formDataToSend.append('barcode', formData.barcode);
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/products/update-product/${params.id}/`, {
@@ -108,6 +110,19 @@ const UpdateProduct = () => {
               className='rounded-md px-3 py-2 border border-slate-300 outline-indigo-500'
             />
           </div>
+
+          <div className='flex flex-col gap-1 mb-3'>
+            <label>Barcode Number</label>
+            <input
+              type='number'
+              name='barcode'
+              value={formData.barcode}
+              onChange={handleChange}
+              className='rounded-md px-3 py-2 border border-slate-300 outline-indigo-500'
+            />
+          </div>
+
+
           <div className='flex flex-col gap-1 mb-3'>
             <label>Category</label>
             <select

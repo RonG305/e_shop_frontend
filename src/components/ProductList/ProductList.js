@@ -3,6 +3,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
 import { CartContext } from "../../CartContext";
+import Loader from "../../Loader";
 
 
 
@@ -29,15 +30,19 @@ const Categories = ({  setSelectedCategory }) => {
   }, []);
 
   return (
-    <div className="sidebar">
+    <div className="sidebar w-1/6">
       <h3 className="font-bold text-xl">Categories</h3>
-      <ul className=" flex gap-2 md:flex-col flex-wrap text-sm font-medium ">
+      <ul className=" flex flex-row gap-2 md:flex-col flex-wrap text-sm font-medium ">
+        <li 
+        onClick={() => handleCategory("")}
+            className=" md:border-b border-slate-300 flex md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white bg-slate-900 md:text-slate-900 text-white  hover:bg-slate-700 hover:text-white cursor-pointer transition-all delay-150 ease-out">All</li>
         {categories.map((category, index) => (
           <li
-            className=" md:border-b border-slate-300 md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white bg-slate-900 md:text-slate-900 text-white  hover:bg-slate-700 hover:text-white cursor-pointer transition-all delay-150 ease-out"
+          onClick={() => handleCategory(category.name)}
+            className=" md:border-b border-slate-300 md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white bg-slate-900 md:text-slate-900 text-white  hover:bg-slate-950 hover:text-white cursor-pointer transition-all delay-150 ease-out"
             key={index}
           >
-            <p className=" " onClick={() => handleCategory(category.name)}>
+            <p className=" " >
               {category.name}
             </p>
           </li>
@@ -52,6 +57,7 @@ const ProductList = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [randomProduct, setRandomProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(false)
 
   const { loadCartItems } = useContext(CartContext);
 
@@ -60,16 +66,30 @@ const ProductList = () => {
 
   const handleSearch = (e) => {
     setSearchText(e.target.value)
+    console.log(e.target.value)
   } 
 
 
-  const searchProducts = products.filter((product) => {
+  useEffect(() => {
+    const timer = () => setTimeout(() => {
+      setIsLoading(false)
+    }, 2000);
+
+    return () => clearTimeout(timer)
+  })
+
+
+  const searchProducts = filteredProducts.filter((product) => {
     return (
       product.name.toLowerCase().includes(searchText.toLowerCase()) ||
       product.category.toLowerCase().includes(searchText.toLowerCase()) ||
       product.description.toLowerCase().includes(searchText.toLowerCase())
     );
   });
+
+
+
+ 
 
 
 
@@ -120,7 +140,7 @@ const ProductList = () => {
   }, [successMessage]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 24;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -132,6 +152,7 @@ const ProductList = () => {
   };
 
   const getProducts = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(
         `${API_BASE_URL}/api/products/products-list/`
@@ -149,6 +170,10 @@ const ProductList = () => {
       console.log(randomProduct.image);
     } catch (error) {
       console.log("Error while fetching baby care prodcuts");
+      setIsLoading(false)
+    } finally{
+      setIsLoading(false)
+      
     }
   };
 
@@ -175,7 +200,7 @@ const ProductList = () => {
   }, [selectedCategory]);
 
 
-  const addToCartButton = " mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-green-500 text-white rounded-full"
+  const addToCartButton = " mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-slate-900 text-white rounded-full"
 
   return (
     <div>
@@ -183,7 +208,7 @@ const ProductList = () => {
 <div className=" flex items-center justify-center my-2">
 
 <input
-       placeholder="search here"
+       placeholder="search ..."
        className=" border border-gray-300 rounded-sm  px-4 py-1 lg:w-[50%] md:w-[70%] w-full outline-blue-500"
        name="search"
        value={searchText}
@@ -195,8 +220,8 @@ const ProductList = () => {
 </div>
     
 
-      {products ? (
-        <div className=" w-full h-64 rounded-md mb-4">
+      {/* {products ? (
+        <div className=" w-full h-80 rounded-md mb-4">
           <img
             src={`${API_BASE_URL}/${randomProduct.image}`}
             className=" w-full h-full object-cover rounded-md"
@@ -205,7 +230,7 @@ const ProductList = () => {
         </div>
       ) : (
         <div className=" w-full h-52 bg-slate-300"></div>
-      )}
+      )} */}
 
       <div className=" md:flex gap-8">
         <Categories
@@ -217,11 +242,23 @@ const ProductList = () => {
           <h3 className=" font-bold text-2xl mb-4 text-slate-950">
             {selectedCategory} products
           </h3>
+
+         
+
+       
      
-          <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto">
-            {itemsToShow?.map((product, index) => (
-              <div className={` ${product.inventory_quantity < 1 ? "hidden" : "block"} mb-4`} key={index}>
-                <div className={` relative rounded-md h-44 mb-4 bg-slate-200 `}>
+          <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto border-b my-8">
+            {searchProducts?.slice(startIndex, endIndex).map((product, index) => (
+             <>
+              {isLoading ? (
+                <div className="h-56 bg-red-300  rounded-md md:w-72 w-44 gap-3">
+                    <Loader />
+                </div>
+                
+              ) : (
+                <div className={` ${product.inventory_quantity < 1 ? "hidden" : "block"} mx-1 md:mx-4 my-10`} key={index}>
+           
+                <div className={` relative rounded-md h-56 mb-4 bg-slate-200 `}>
                   <div class="absolute top-2 left-0 px-2 py-1 bg-orange-500 text-xs font-bold text-white rounded-tr-md rounded-br-md">
                     <span>{(((product.old_price) - (product.price)) / (product.old_price) * 100).toFixed(1) } % Discount</span>
                   </div>
@@ -231,10 +268,13 @@ const ProductList = () => {
                     </span>
                   </div>
 
-                  <Link to={`/main/product-detail/${product?.id}`}>
+                  
+
+                  <Link  to={`/main/product-detail/${product?.id}`}>
                     <img
                       className=" rounded-md w-full h-full object-cover"
                       src={`${API_BASE_URL}/${product?.image}`}
+                  
                       alt={product?.name}
                       loading="lazy"
                     />
@@ -242,7 +282,7 @@ const ProductList = () => {
                 </div>
 
                 <div className=" flex justify-between">
-                  <div>
+                  <div className=" w-[90%]">
                   {successProductId === product.id && (
                       <p className="bg-green-500 text-white rounded-md px-4 py-1 my-2">
                         {successMessage}
@@ -255,6 +295,7 @@ const ProductList = () => {
                   </div>
 
                   <div
+                  
                     onClick={() =>
                       addToCart({
                         userId: user,
@@ -272,6 +313,8 @@ const ProductList = () => {
                   </div>
                 </div>
               </div>
+              )}
+             </>
             ))}
           </div>
 

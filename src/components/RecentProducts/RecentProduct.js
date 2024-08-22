@@ -37,10 +37,10 @@ const RecentProducts = () => {
    
     
 
-    <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto">
+    <div className=" grid grid-cols-2 md:grid md:grid-cols-4 gap-3 overflow-x-auto ">
       {recentProducts.map((product, index) => (
-          <Link to={`/main/product-detail/${product.id}`} key={index}>
-          <div className=" relative rounded-md  h-40 ">
+          <Link className=' mb-10' to={`/main/product-detail/${product.id}`} key={index}>
+          <div className=" relative rounded-md h-56  ">
             <div class="absolute top-2 left-0 px-2 py-1 bg-green-700 text-xs font-bold text-white rounded-tr-md rounded-br-md">
               <span>20% discount</span>
             </div>

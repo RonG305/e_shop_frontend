@@ -87,7 +87,7 @@ const RecentOrders = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredOrders.slice(startIndex, endIndex).map((order) => (
+            {filteredOrders?.slice(startIndex, endIndex).map((order) => (
               <tr
                 className=" border-b border-slate-200 font-medium text-sm"
                 key={order.id}

@@ -25,7 +25,7 @@ function CorouselComponent() {
     getRecentProducts();
   }, []);
   return (
-    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 mb-5">
+    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 mb-5 bg-slate-300">
       <Carousel>
         {recentProducts?.map((product) => (
           <img src={`${API_BASE_URL}/${product.image}`}  className="w-full h-full object-cover" alt={product.name} />

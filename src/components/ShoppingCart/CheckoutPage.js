@@ -11,6 +11,7 @@ const CheckoutPage = () => {
 
 
   const [successMessage, setSuccessMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("")
   const [isLoading, setIsLoading] = useState(true)
 
 
@@ -40,7 +41,6 @@ const CheckoutPage = () => {
     city: "",
     zip_code: "",
     phone_number: "",
-
     total_price: totalCost,
     payment_method: "M-PESA",
     is_paid: false,
@@ -83,22 +83,29 @@ const CheckoutPage = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to create order');
+        
+        setErrorMessage("Failed, phone mumber should start like 254722536741")
+      } else {
+
+        const data = await response.json();
+        console.log("Order created successfully:", data);
+        setSuccessMessage("Order submitted succesifully")
+       
+  
+        const timer = setTimeout(() => {
+          navigate('/main/receipt')
+          setIsLoading(false)
+        }, 3000);
+  
+        return () => clearTimeout(timer)
+
       }
 
-      const data = await response.json();
-      console.log("Order created successfully:", data);
-      setSuccessMessage("Order submitted succesifully")
-      setIsLoading(true)
-
-      const timer = setTimeout(() => {
-        navigate('/main/my-orders')
-      }, 3000);
-
-      return () => clearTimeout(timer)
+    
      
     } catch (error) {
       console.error('An error occurred while creating the order', error);
+      setErrorMessage("Failed, phone mumber should start like 254722536741")
     }
   };
 
@@ -349,6 +356,7 @@ const CheckoutPage = () => {
 
         <div className="md:w-1/2 w-full">
         {successMessage &&  <p className=" bg-green-500 text-white rounded-md px-4 py-1 my-2">{successMessage}</p>}
+        {errorMessage &&  <p className=" bg-red-400 text-white rounded-md px-4 py-1 my-2">{errorMessage}</p>}
           <OrderSummary totalCost={totalCost}  isCheckout={isCheckout} />
 
           {isLoading ? (

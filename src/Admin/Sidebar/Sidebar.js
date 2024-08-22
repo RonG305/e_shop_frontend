@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 import { FaAngleUp, FaArrowAltCircleLeft } from "react-icons/fa";
-import { LuLayoutDashboard } from "react-icons/lu";
+import { LuDollarSign, LuLayoutDashboard } from "react-icons/lu";
 import { BiSolidPyramid } from "react-icons/bi";
 import { IoFlashSharp, IoSettingsSharp } from "react-icons/io5";
 import { LuUserCircle2 } from "react-icons/lu";
@@ -153,6 +153,34 @@ const Sidebar = ({ isSidebarOPen, handleSidebar }) => {
                     </span>
                   </Link>
                 </li>
+              </ul>
+            )}
+          </li>
+
+          <li className="p-2">
+            <div
+              onClick={toggleCustomers}
+              className="cursor-pointer block font-extrabold "
+            >
+              <div className=" flex items-center justify-between">
+                <span className=" flex items-center gap-2">
+                  <LuDollarSign size={20} />
+                  Transactions
+                </span>
+                {isCustomersOpen ? <FaAngleUp /> : <FaAngleDown />}
+              </div>
+            </div>
+            {isCustomersOpen && (
+              <ul className="ml-2">
+                <li className="p-2">
+                  <Link to="/dashboard/transactions" className="block">
+                    <span className=" flex items-center gap-2 text-sm font-medium">
+                      <BiSolidPyramid className=" text-indigo-500" size={20} />
+                      Transactions List
+                    </span>
+                  </Link>
+                </li>
+              
               </ul>
             )}
           </li>

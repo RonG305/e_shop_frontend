@@ -10,7 +10,8 @@ module.exports = {
     extend: {
       fontFamily: {
         'inter': 'Inter, sans-serif',
-        'poppins': "Poppins, sans-serif"
+        'poppins': "Poppins, sans-serif",
+        'silkscreen': "Silkscreen, sans-serif"
       }
     },
   },
