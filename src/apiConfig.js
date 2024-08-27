@@ -1,7 +1,7 @@
-export const API_BASE_URL = "http://192.168.1.103:8000";
-// export const API_BASE_URL = "http://127.0.0.1:8000";
 
-// export const API_BASE_URL = "http://192.168.43.118:8000/"
+export const API_BASE_URL = "http://192.168.1.26:8000";
+
+
 
 export const getToken = () => {
     return localStorage.getItem('access_token');

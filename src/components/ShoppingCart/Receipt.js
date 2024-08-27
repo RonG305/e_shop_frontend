@@ -42,11 +42,16 @@ const Receipt = () => {
       </div>
 
       <div className='mb-4'>
-        <h4 className='text-lg font-semibold'>Customer Information</h4>
+        <h4 className='text-lg font-semibold'>EleoShop Info</h4>
         <p>Name: {order.full_name}</p>
         <p>Email: {order.email_address}</p>
         <p>Address: {order.address}, {order.city}, {order.zip_code}</p>
-        <p>Phone Number: {order.phone_number}</p>
+        
+      </div>
+
+      <div>
+        <h3>Customer Number</h3>
+        <p>Phone Number: 254 *****</p>
       </div>
 
       <div className='mb-4'>

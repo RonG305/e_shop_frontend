@@ -5,17 +5,13 @@ import { fetchCartItems } from "../../apiConfig";
 import { API_BASE_URL } from "../../apiConfig";
 
 const CheckoutPage = () => {
-  const [isCheckout, setIsCheckout] = useState(true)
-  const navigate = useNavigate()
+  const [isCheckout, setIsCheckout] = useState(true);
+  const navigate = useNavigate();
   const [totalCost, setTotalCost] = useState(0);
 
-
-  const [successMessage, setSuccessMessage] = useState("")
-  const [errorMessage, setErrorMessage] = useState("")
-  const [isLoading, setIsLoading] = useState(true)
-
-
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const loadCartItems = async () => {
     const items = await fetchCartItems();
@@ -26,33 +22,28 @@ const CheckoutPage = () => {
     loadCartItems();
   }, []);
 
+  console.log("Total Cost: ", totalCost);
 
-
-
-  console.log("Total Cost: ", totalCost)
-
-
-  const userId = localStorage.getItem("userId")
+  const userId = localStorage.getItem("userId");
   const [formData, setFormData] = useState({
-    user: userId, 
-    full_name: "",
-    email_address: "",
-    address: "",
-    city: "",
-    zip_code: "",
+    user: userId,
+    full_name: "ELEO SHOP",
+    email_address: "eleoshop@gmail.com",
+    address: "10200, Murang'a Town, opposite MTN stage",
+    city: "MURANG'A",
+    zip_code: "10200",
     phone_number: "",
     total_price: totalCost,
     payment_method: "M-PESA",
     is_paid: false,
     isDelivered: false,
-
-    
   });
 
-
-
   const calculateTotalCost = (items) => {
-    const total = items.reduce((acc, item) => acc + item.cost * item.quantity, 0);
+    const total = items.reduce(
+      (acc, item) => acc + item.cost * item.quantity,
+      0
+    );
     console.log(total);
     setTotalCost(total);
     setFormData((prevData) => ({
@@ -60,7 +51,6 @@ const CheckoutPage = () => {
       total_price: total,
     }));
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,51 +64,42 @@ const CheckoutPage = () => {
     e.preventDefault();
     try {
       const response = await fetch(`${API_BASE_URL}/api/orders/createOrder/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        
-        setErrorMessage("Failed, phone mumber should start like 254722536741")
+        setErrorMessage("Failed, phone mumber should start like 254722536741");
       } else {
-
         const data = await response.json();
         console.log("Order created successfully:", data);
-        setSuccessMessage("Order submitted succesifully")
-       
-  
+        setSuccessMessage("Order submitted succesifully");
+
         const timer = setTimeout(() => {
-          navigate('/main/receipt')
-          setIsLoading(false)
+          navigate("/main/receipt");
+          setIsLoading(false);
         }, 3000);
-  
-        return () => clearTimeout(timer)
 
+        return () => clearTimeout(timer);
       }
-
-    
-     
     } catch (error) {
-      console.error('An error occurred while creating the order', error);
-      setErrorMessage("Failed, phone mumber should start like 254722536741")
+      console.error("An error occurred while creating the order", error);
+      setErrorMessage("Failed, phone mumber should start like 254722536741");
     }
   };
 
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      setSuccessMessage("")
-      setIsLoading(false)
-   }, 2000);
+      setSuccessMessage("");
+      setIsLoading(false);
+    }, 2000);
 
-   return () => clearTimeout(timer)
-  })
-
+    return () => clearTimeout(timer);
+  });
 
   return (
     <form onSubmit={handleSubmit} className=" rounded-md bg-gray-100 p-4">
@@ -128,10 +109,8 @@ const CheckoutPage = () => {
 
       <div className=" md:flex ">
         <div className="container mx-auto py-8">
-          <div  className="max-w-lg mx-auto">
-
-                
-                <div className="mb-4 hidden">
+          <div className="max-w-lg mx-auto">
+            <div className="mb-4 hidden">
               <label
                 htmlFor="user"
                 className="block text-sm font-medium text-gray-700"
@@ -150,7 +129,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* Full Name */}
-            <div className="mb-4">
+            <div className="mb-4 hidden">
               <label
                 htmlFor="fullName"
                 className="block text-sm font-medium text-gray-700"
@@ -169,7 +148,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* Email */}
-            <div className="mb-4">
+            <div className="mb-4 hidden">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-700"
@@ -188,7 +167,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* Address */}
-            <div className="mb-4">
+            <div className="mb-4 hidden">
               <label
                 htmlFor="address"
                 className="block text-sm font-medium text-gray-700"
@@ -207,7 +186,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* City */}
-            <div className="mb-4">
+            <div className="mb-4 hidden">
               <label
                 htmlFor="city"
                 className="block text-sm font-medium text-gray-700"
@@ -226,7 +205,7 @@ const CheckoutPage = () => {
             </div>
 
             {/* ZIP Code */}
-            <div className="mb-4">
+            <div className="mb-4 hidden">
               <label
                 htmlFor="zip"
                 className="block text-sm font-medium text-gray-700"
@@ -244,9 +223,8 @@ const CheckoutPage = () => {
               />
             </div>
 
-
-             {/* Phone Number */}
-             <div className="mb-4">
+            {/* Phone Number */}
+            <div className="mb-4">
               <label
                 htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
@@ -264,9 +242,8 @@ const CheckoutPage = () => {
               />
             </div>
 
-
-             {/* Phone Number */}
-             <div className="mb-4 ">
+            {/* Phone Number */}
+            <div className="mb-4 ">
               <label
                 htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
@@ -285,9 +262,8 @@ const CheckoutPage = () => {
               />
             </div>
 
-
-                {/* Phone Number */}
-                <div className="mb-4">
+            {/* Phone Number */}
+            <div className="mb-4">
               <label
                 htmlFor="payment_method"
                 className="block text-sm font-medium text-gray-700"
@@ -307,7 +283,12 @@ const CheckoutPage = () => {
             </div>
 
             <div className="mb-4">
-              <label htmlFor="payment_method" className="block text-sm font-medium text-gray-700">Payment Method</label>
+              <label
+                htmlFor="payment_method"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Payment Method
+              </label>
               <div className="mt-2">
                 <div className="flex items-center mb-2">
                   <input
@@ -315,11 +296,16 @@ const CheckoutPage = () => {
                     id="mpesa"
                     name="payment_method"
                     value="M-PESA"
-                    checked={formData.payment_method === 'M-PESA'}
+                    checked={formData.payment_method === "M-PESA"}
                     onChange={handleChange}
                     className="mr-2"
                   />
-                  <label htmlFor="mpesa" className="text-sm font-medium text-gray-700">M-PESA</label>
+                  <label
+                    htmlFor="mpesa"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    M-PESA
+                  </label>
                 </div>
                 <div className="flex items-center mb-2">
                   <input
@@ -327,11 +313,16 @@ const CheckoutPage = () => {
                     id="paypal"
                     name="payment_method"
                     value="PAYPAL"
-                    checked={formData.payment_method === 'PAYPAL'}
+                    checked={formData.payment_method === "PAYPAL"}
                     onChange={handleChange}
                     className="mr-2"
                   />
-                  <label htmlFor="paypal" className="text-sm font-medium text-gray-700">PAYPAL</label>
+                  <label
+                    htmlFor="paypal"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    PAYPAL
+                  </label>
                 </div>
                 <div className="flex items-center">
                   <input
@@ -339,40 +330,47 @@ const CheckoutPage = () => {
                     id="credit_card"
                     name="payment_method"
                     value="CREDIT_CARD"
-                    checked={formData.payment_method === 'CREDIT_CARD'}
+                    checked={formData.payment_method === "CREDIT_CARD"}
                     onChange={handleChange}
                     className="mr-2"
                   />
-                  <label htmlFor="credit_card" className="text-sm font-medium text-gray-700">Credit Card</label>
+                  <label
+                    htmlFor="credit_card"
+                    className="text-sm font-medium text-gray-700"
+                  >
+                    Credit Card
+                  </label>
                 </div>
               </div>
             </div>
-
-          
           </div>
         </div>
 
         {/* Order Summary */}
 
         <div className="md:w-1/2 w-full">
-        {successMessage &&  <p className=" bg-green-500 text-white rounded-md px-4 py-1 my-2">{successMessage}</p>}
-        {errorMessage &&  <p className=" bg-red-400 text-white rounded-md px-4 py-1 my-2">{errorMessage}</p>}
-          <OrderSummary totalCost={totalCost}  isCheckout={isCheckout} />
+          {successMessage && (
+            <p className=" bg-green-500 text-white rounded-md px-4 py-1 my-2">
+              {successMessage}
+            </p>
+          )}
+          {errorMessage && (
+            <p className=" bg-red-400 text-white rounded-md px-4 py-1 my-2">
+              {errorMessage}
+            </p>
+          )}
+          <OrderSummary totalCost={totalCost} isCheckout={isCheckout} />
 
           {isLoading ? (
             <button className=" bg-slate-950 w-full text-white rounded-md px-4 py-2 mt-2 buttonload">
               <i class="fa fa-circle-o-notch fa-spin"></i>Loading...
             </button>
           ) : (
-            <button
-            
-              className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4"
-            >
+            <button className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4">
               Place Order
             </button>
           )}
         </div>
-
       </div>
       {/* Order summary */}
     </form>

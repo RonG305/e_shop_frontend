@@ -1,23 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
-import { useCart } from "./CartContext";
-import { Html5QrcodeScanner } from "html5-qrcode";
+import { CartContext, useCart } from "./CartContext";
 
 const POS = () => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
+  const [barcode, setBarcode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   const navigate = useNavigate();
-  const { loadCartItems } = useCart();
+ 
+
+  const { loadCartItems } = useContext(CartContext);
 
   const userId = localStorage.getItem("userId");
 
   const getProductByBarcode = async (barcode) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/products/barcode/${barcode}/`);
+      const response = await fetch(`${API_BASE_URL}/api/products/product/barcode/${barcode}/`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+      });
       if (!response.ok) {
         throw new Error("Product not found");
       }
@@ -55,27 +63,16 @@ const POS = () => {
       loadCartItems();
     } catch (error) {
       console.error("An error occurred while adding to cart", error);
-      navigate("/main/signin");
+      
     }
   };
 
-  useEffect(() => {
-    const scanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
-    
-    scanner.render(
-      (result) => {
-        scanner.clear();
-        getProductByBarcode(result);
-      },
-      (error) => {
-        console.error("Error scanning barcode:", error);
-      }
-    );
-
-    return () => {
-      scanner.clear();
-    };
-  }, []);
+  const handleBarcodeSubmit = (e) => {
+    e.preventDefault();
+    if (barcode) {
+      getProductByBarcode(barcode);
+    }
+  };
 
   return (
     <div>
@@ -87,6 +84,36 @@ const POS = () => {
 
       <div className="md:flex gap-3 md:min-h-[70vh]">
         <div className="md:w-1/2" style={{ boxSizing: "border-box" }}>
+          <form onSubmit={handleBarcodeSubmit} className="mb-4">
+            <label htmlFor="barcode-input" className="block text-lg font-bold mb-2">
+              Enter Barcode:
+            </label>
+            <input
+              id="barcode-input"
+              type="text"
+              value={barcode}
+              onChange={(e) => setBarcode(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded-md mb-2"
+              placeholder="Enter product barcode"
+              required
+            />
+            <button
+              type="submit"
+              className="bg-blue-500 text-white rounded-md px-4 py-2"
+            >
+              Add Product
+            </button>
+          </form>
+
+
+          <img
+            className="w-full md:h-[70vh] object-cover rounded-md hover:scale-125 transition-all delay-150 ease-in-out"
+            src={`${API_BASE_URL}/${product.image}`}
+            alt="product"
+            loading="lazy"
+          />
+       
+
           <div id="reader" style={{ width: "100%" }}></div>
         </div>
 
