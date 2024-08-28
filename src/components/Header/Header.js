@@ -41,7 +41,7 @@ const Header = () => {
 
           <div className=' flex items-center justify-between py-3'>
             <div>
-            <Link to={`/main`} className=' font-bold text-3xl text-slate-950'>EleoShop</Link>
+            <Link to={`/main`} className=' font-bold text-3xl text-slate-950'>Liviamart</Link>
             <p>Welcome Back {isLoggedIn}</p>
             </div>
           
@@ -49,6 +49,8 @@ const Header = () => {
            
 
 <div className='flex gap-3'>
+  {userRole === "admin" && <Link to={`/main/pos`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>POS</Link>}
+
   {userRole === "admin" && <Link to={`/dashboard/product-list`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>Dashboard</Link>}
   
           <Link onClick={loadCartItems} to='/main/shopping-cart'>

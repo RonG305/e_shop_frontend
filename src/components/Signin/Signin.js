@@ -94,7 +94,7 @@ const Signin = () => {
         <form onSubmit={handleSubmit}  className=''>
             {errorMessage && <p className=' bg-red-400 rounded-md px-2 py-1 '>{errorMessage}</p>}
             <div className=' flex flex-col gap-2'>
-                <h4 className=' font-bold text-2xl text-center my-4'>Login to EleoShop </h4>
+                <h4 className=' font-bold text-2xl text-center my-4'>Login to Liviamart </h4>
                   <div>
                     <p className=' font-semibold'>Username</p>
                     <input

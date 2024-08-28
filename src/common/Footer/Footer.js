@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-wrap justify-between">
         {/* Company Section */}
         <div className="w-full md:w-1/2 lg:w-1/4 mb-4">
-          <h3 className=" font-bold text-2xl mb-2">EleoShop</h3>
+          <h3 className=" font-bold text-2xl mb-2">Liviamart</h3>
           <p></p>
           <ul>
             <li>About</li>
@@ -21,9 +21,9 @@ const Footer = () => {
         <div className="w-full md:w-1/2 lg:w-1/4 mb-4">
           <h3 className="text-lg font-bold mb-2">Useful links</h3>
           <ul>
-            <li>Bout Medswift</li>
+            <li>ABout Liviamart</li>
             <li>Our services</li>
-            <li>How to shop in Medscrift</li>
+            <li>How to shop in Liviamart</li>
             <li>FAQ</li>
             <li>Contact Us</li>
           </ul>

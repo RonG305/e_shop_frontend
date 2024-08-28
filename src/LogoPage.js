@@ -19,6 +19,7 @@ const Logo = () => {
         rotate:[0, 0, 180, 270, 180, 0]
     }
     }
+
     return(
     <motion.div 
      variants={logoVariants}
@@ -36,11 +37,22 @@ const Logo = () => {
 }
 
 const LogoPage = () => {
+
+    const buttonVariants = {
+        hidden: { opacity: 0, y: 100 },
+        visible: { opacity: 1, y: 0 , transition : {
+            delay: 0.5
+        }}
+    }
   return (
     <div className=' flex items-center justify-center h-screen flex-col'>
-        <h3 className=' text-xl font-extrabold mb-8'>Ele0Shop</h3>
+        <h3 className=' text-xl font-extrabold mb-8'>Liviamart</h3>
         <Logo />
-        <button className=' bg-slate-950 px-5 py-2 text-white w-[200px] rounded-md mt-10 hover:scale-110 ease-in-out delay-200 transition-all'><Link to={`/main/product-list`}>Shop Now</Link> </button>
+        <motion.button 
+        variants={buttonVariants}
+        initial="hidden"
+        animate="visible"
+        className=' bg-slate-950 px-5 py-2 text-white w-[200px] rounded-md mt-10 hover:scale-110 ease-in-out delay-200 transition-all'><Link to={`/main/product-list`}>Shop Now</Link> </motion.button>
     </div>
   )
 }
