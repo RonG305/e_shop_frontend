@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Main from './pages/Main/Main';
 import { CartProvider } from './components/ShoppingCart/CartContext';
 import Dashboard from './Admin/Dashboard/Dashboard';
+import LogoPage from './LogoPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route  path='/signup' element ={<Signup />}/>
           <Route path='/main/*' element={<Main />} />
           <Route path='/dashboard/*' element={<Dashboard />}  />
+          <Route path='/'  element={<LogoPage />}/>
         </Routes>
       </BrowserRouter>
       </CartProvider>

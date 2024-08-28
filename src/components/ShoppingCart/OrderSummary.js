@@ -20,18 +20,18 @@ const OrderSummary = ({totalCost}) => {
 
         <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
           <p>Shipping estimate</p>
-          <p>kshs 200.00</p>
+          <p>kshs 0.00</p>
         </div>
 
         <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
           <p>Tax Estimate</p>
-          <p>Kshs 70.00</p>
+          <p>Kshs 0.00</p>
         </div>
 
         <div className="flex items-center justify-between text-sm text-slate-700 py-2 px-4">
           <p className="font-bold text-slate-950">Total Order</p>
           <p className="font-bold text-slate-950">
-            Kshs {(totalCost + 300 + 70).toFixed(2)}
+            Kshs {(totalCost).toFixed(2)}
           </p>
         </div>
 

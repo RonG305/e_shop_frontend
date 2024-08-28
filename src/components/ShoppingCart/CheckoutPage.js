@@ -11,7 +11,7 @@ const CheckoutPage = () => {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadCartItems = async () => {
     const items = await fetchCartItems();
@@ -61,6 +61,7 @@ const CheckoutPage = () => {
   };
 
   const handleSubmit = async (e) => {
+    setIsLoading(true)
     e.preventDefault();
     try {
       const response = await fetch(`${API_BASE_URL}/api/orders/createOrder/`, {
@@ -76,8 +77,9 @@ const CheckoutPage = () => {
         setErrorMessage("Failed, phone mumber should start like 254722536741");
       } else {
         const data = await response.json();
-        console.log("Order created successfully:", data);
+      
         setSuccessMessage("Order submitted succesifully");
+       
 
         const timer = setTimeout(() => {
           navigate("/main/receipt");

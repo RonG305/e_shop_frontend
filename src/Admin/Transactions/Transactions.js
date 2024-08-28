@@ -115,7 +115,7 @@ const Transactions = () => {
         <tbody>
 
          
-          {filteredTransactions.slice(startIndex, endIndex).map((transaction) => (
+          {filteredTransactions?.slice(startIndex, endIndex).map((transaction) => (
             <tr className=" border-b border-slate-200 font-medium text-sm" key={transaction.id}>
               <td className="px-4 py-3 flex gap-2 items-center">{transaction.transaction_id}</td>
               <td className="px-4 py-3">{transaction.user}</td>

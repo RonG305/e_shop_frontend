@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-wrap justify-between">
         {/* Company Section */}
         <div className="w-full md:w-1/2 lg:w-1/4 mb-4">
-          <h3 className=" font-bold text-2xl mb-2">MedSwift</h3>
+          <h3 className=" font-bold text-2xl mb-2">EleoShop</h3>
           <p></p>
           <ul>
             <li>About</li>

@@ -85,8 +85,9 @@ const Signup = () => {
 
 
     const styles = {
-        inputStyles : "rounded-md outline-blue-600 border px-2 py-1 border-slate-300 w-full",
-        passwordStyles:  "rounded-md   w-full flex gap-2 items-center"
+        inputStyles : "rounded-md outline-blue-600 border p-2 border-slate-300 w-full",
+        passwordStyles:  "rounded-md   w-full flex gap-2 items-center",
+        titleStyles : "font-semibold"
     }
 
 
@@ -95,11 +96,11 @@ const Signup = () => {
     <div className=' flex items-center justify-center mt-4 text-slate-950 px-2'>
         <div className='md:w-[500px] p-8  rounded-md border border-slate-300 '>
         <form onSubmit={handleSubmit}  className=''>
-        {errorMessage && <p className=' bg-red-400 rounded-md px-2 py-1 '>{errorMessage}</p>}
+        {errorMessage && <p className=' bg-red-400 rounded-md px-2 2 '>{errorMessage}</p>}
             <div className=' flex flex-col gap-2'>
-                <h4 className=' font-bold text-2xl text-center my-4'>Create MedSwift account</h4>
+                <h4 className=' font-bold text-2xl text-center my-4'>Create account</h4>
                 <div>
-                    <p>User Name</p>
+                    <p className={styles.titleStyles}>User Name</p>
                     <input
                     name='username'
                     value={userData.username}
@@ -110,7 +111,7 @@ const Signup = () => {
                 </div>
                 
                 <div>
-                    <p>Email address</p>
+                    <p className={styles.titleStyles}>Email address</p>
                     <input
                     name='email'
                     value={userData.email}
@@ -121,7 +122,7 @@ const Signup = () => {
                 </div>
                 
                 <div>
-                    <p>First name</p>
+                    <p className={styles.titleStyles}>First name</p>
                     <input
                     name='first_name'
                     value={userData.first_name}
@@ -133,7 +134,7 @@ const Signup = () => {
                 
 
                 <div>
-                    <p>Last name</p>
+                    <p className={styles.titleStyles}>Last name</p>
                     <input
                     name='last_name'
                     value={userData.last_name}
@@ -144,7 +145,7 @@ const Signup = () => {
                 </div>
 
                 <div>
-                    <p>Enter password</p>
+                    <p className={styles.titleStyles}>Enter password</p>
                     <div className={styles.passwordStyles}>
                     <input
                     type={`${showPassword ? "text": "password"}`}
@@ -165,7 +166,7 @@ const Signup = () => {
                 </div>
 
                 <div>
-                    <p>Enter password</p>
+                    <p className={styles.titleStyles}>Enter password</p>
                     <div className={styles.passwordStyles}>
                     <input
                     type={`${showPassword ? "text": "password"}`}
@@ -189,11 +190,11 @@ const Signup = () => {
                 
 
                 {isLoading ? (
-                     <button className=' bg-orange-500 text-white rounded-md px-4 py-1 mt-2 buttonload' >
+                     <button className=' bg-slate-950 text-white rounded-md px-4 py-2 mt-2 buttonload' >
                      <i class="fa fa-circle-o-notch fa-spin"></i>Loading
                  </button>
                 ): (
-                    <button type='submit' className=' bg-orange-500 text-white rounded-md px-4 py-1 mt-2 '>Sign up</button>
+                    <button type='submit' className=' bg-slate-950 text-white rounded-md px-4 py-2 mt-2 '>Sign up</button>
                 )}
               
                
