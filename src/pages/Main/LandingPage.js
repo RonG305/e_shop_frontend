@@ -27,7 +27,7 @@ const LandingPage = () => {
     <div>
       <CorouselComponent />
       <RecentProducts />
-      <DermatologicalProducts />
+      {/* <DermatologicalProducts />
       <OverTheCounter />
       <PersonalCare />
       <FirstAid />
@@ -35,7 +35,7 @@ const LandingPage = () => {
       <BabyInfactCare />
       <MedicalProducts />
       <PainManagement />
-      <DigestiveHealth />
+      <DigestiveHealth /> */}
       
     </div>
   );
