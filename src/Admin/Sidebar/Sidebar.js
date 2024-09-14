@@ -25,6 +25,8 @@ const Sidebar = ({ isSidebarOPen, handleSidebar }) => {
 
   const {handleLogout} = useContext(LogoutContext)
 
+  const USERROLE = localStorage.getItem('role')
+
   return (
     <div
       className={`fixed top-0 z-50 w-52 h-screen text-sm bg-slate-50 border-r border-gray-200 transform text-slate-700 ${
@@ -33,11 +35,13 @@ const Sidebar = ({ isSidebarOPen, handleSidebar }) => {
     >
       <h2 className="text-2xl font-extrabold flex items-center gap-2  text-orange-500 p-4">
         <IoFlashSharp size={30} />
-        MedSwift <RxCross2 onClick={handleSidebar} className=" bg-indigo-500 rounded-sm font-bold text-white cursor-pointer" size={25} />
+        Liviamart <RxCross2 onClick={handleSidebar} className=" bg-indigo-500 rounded-sm font-bold text-white cursor-pointer" size={25} />
       </h2>
       <nav className="flex-grow">
         <ul className=" ml-2">
-          <li className="p-sm font-medium p-2 ">
+          {USERROLE === 'admin' && (
+            <>
+            <li className="p-sm font-medium p-2 ">
             <Link to="/dashboard/home" className="block">
               <span className=" flex items-center gap-2 font-extrabold">
                 <LuLayoutDashboard size={20} />
@@ -46,7 +50,34 @@ const Sidebar = ({ isSidebarOPen, handleSidebar }) => {
             </Link>
           </li>
 
-          <li className="p-2">
+         
+            </>
+          )}
+
+<li className="p-sm font-medium p-2 ">
+            <Link to="/dashboard/my-sales" className="block">
+              <span className=" flex items-center gap-2 font-extrabold">
+                <LuLayoutDashboard size={20} />
+                my sales
+              </span>
+            </Link>
+          </li>
+
+          {USERROLE === 'admin' && (
+            <>
+
+<li className="p-sm font-medium p-2 ">
+            <Link to="/dashboard/all-orders" className="block">
+              <span className=" flex items-center gap-2 font-extrabold">
+                <LuLayoutDashboard size={20} />
+                all orders
+              </span>
+            </Link>
+          </li>
+
+
+
+              <li className="p-2">
             <div
               onClick={toggleCategory}
               className="cursor-pointer block font-extrabold"
@@ -219,6 +250,10 @@ const Sidebar = ({ isSidebarOPen, handleSidebar }) => {
               </span>
             </Link>
           </li>
+            </>
+          )}
+
+        
 
 
           <li onClick={handleLogout} className="p-2">

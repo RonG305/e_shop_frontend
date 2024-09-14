@@ -159,6 +159,7 @@ const ProductList = () => {
                 <Link className=' cursor-pointer' to={`/dashboard/update-product/${product.id}`}> <FiEdit  size={18} /></Link>
                    
                     <RiDeleteBin6Line  onClick={() => handleModal(product.id)} className='text-red-500' size={18} />
+                      <button className=' bg-indigo-500 rounded-md px-2 py-1 text-white'><Link to={`/dashboard/update-product-price/${product.id}`}>Give discount</Link></button>
                    
                 </span>
               </td>

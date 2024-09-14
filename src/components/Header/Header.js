@@ -20,7 +20,7 @@ const Header = () => {
 
   const isLoggedIn = localStorage.getItem("username")
  
-  const userRole = localStorage.getItem("role")
+  const USERROLE = localStorage.getItem("role")
 
 
  
@@ -49,9 +49,11 @@ const Header = () => {
            
 
 <div className='flex gap-3'>
-  {userRole === "admin" && <Link to={`/main/pos`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>POS</Link>}
+  {USERROLE === 'seller' && <Link to={`/dashboard/my-sales`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>my sales</Link>}
 
-  {userRole === "admin" && <Link to={`/dashboard/product-list`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>Dashboard</Link>}
+  {USERROLE === "admin" && <Link to={`/main/pos`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>POS</Link>}
+
+  {USERROLE === "admin" && <Link to={`/dashboard/product-list`} className=' text-sm rounded-md h-fit py-2 px-2  text-white bg-slate-950'>Dashboard</Link>}
   
           <Link onClick={loadCartItems} to='/main/shopping-cart'>
             <IoCartOutline size={25} />
