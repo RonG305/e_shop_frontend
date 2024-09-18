@@ -6,10 +6,12 @@ const UpdateProduct = () => {
   const params = useParams()
   const navigate = useNavigate()
   const [categories, setCategories] = useState([]);
+  const [subCategories, setSubCategories] = useState([]);
 
   const [formData, setFormData] = useState({
     name: "",
     category: "",
+    subcategory: "",
     old_price: "",
     price: "",
     image: null,
@@ -42,6 +44,17 @@ const UpdateProduct = () => {
     }
   };
 
+  const getSubCategories = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/category/sub_categories`);
+      const data = await response.json();
+      setSubCategories(data);
+    } catch (error) {
+      console.log("An error occurred while fetching categories", error);
+    }
+  };
+
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevData) => ({
@@ -63,6 +76,7 @@ const UpdateProduct = () => {
     const formDataToSend = new FormData();
     formDataToSend.append('name', formData.name);
     formDataToSend.append('category', formData.category);
+    formDataToSend.append('subcategory', formData.subcategory);
     formDataToSend.append('old_price', formData.old_price)
     formDataToSend.append('price', formData.price);
     formDataToSend.append('inventory_quantity', formData.inventory_quantity);
@@ -137,6 +151,22 @@ const UpdateProduct = () => {
               ))}
             </select>
           </div>
+
+          <div className='flex flex-col gap-1 mb-3'>
+            <label>Sub Category</label>
+            <select
+              name='subcategory'
+              value={formData.subcategory}
+              onChange={handleChange}
+              className='rounded-md px-3 py-2 border border-slate-300 outline-indigo-500'
+            >
+              <option value="">Select sub-category</option>
+              {subCategories.map((subCategory) => (
+                <option key={subCategory.id} value={subCategory.id}>{subCategory.name}</option>
+              ))}
+            </select>
+          </div>
+
 
 
           <div className='flex flex-col gap-1 mb-3'>

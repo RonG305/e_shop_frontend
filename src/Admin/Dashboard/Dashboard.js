@@ -19,6 +19,9 @@ import Transactions from "../Transactions/Transactions";
 import UpdateProductPrice from "../Products/UpdateProductPrice";
 import SellerOrder from "../SellerOrders/SellerOrders";
 import SellerAdminView from "../SellerOrders/SellerAdminView";
+import SubCategoryList from "../SubCategory/SubCategoryList";
+import CreateSubCategory from "../SubCategory/CreateSubCategory";
+import UpdateSubCategory from "../SubCategory/UpdateSubCategory";
 
 const Dashboard = () => {
   const [isSidebarOPen, setIsSidebarOpen] = useState(true);
@@ -84,10 +87,7 @@ const Dashboard = () => {
             <Route
               path="/product-details/:id"
               element={
-                <ProtectedRoute
-                  component={ProductDetails}
-                  roles={["admin"]}
-                />
+                <ProtectedRoute component={ProductDetails} roles={["admin"]} />
               }
             />
 
@@ -115,10 +115,31 @@ const Dashboard = () => {
             <Route
               path="/category-details/:id"
               element={
+                <ProtectedRoute component={CategoryDetail} roles={["admin"]} />
+              }
+            />
+
+            <Route
+              path="/subcategory-list"
+              element={
+                <ProtectedRoute component={SubCategoryList} roles={["admin"]} />
+              }
+            />
+
+            <Route
+              path="/create-subcategory"
+              element={
                 <ProtectedRoute
-                  component={CategoryDetail}
+                  component={CreateSubCategory}
                   roles={["admin"]}
                 />
+              }
+            />
+
+            <Route
+              path="/update-subcategory/:id"
+              element={
+                <ProtectedRoute component={UpdateSubCategory} roles={["admin"]} />
               }
             />
 

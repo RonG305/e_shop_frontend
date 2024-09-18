@@ -4,51 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../../apiConfig";
 import { CartContext } from "../../CartContext";
 import Loader from "../../Loader";
+import Categories from "./Categories";
 
-const Categories = ({ setSelectedCategory }) => {
-  const [categories, setCategories] = useState([]);
 
-  const handleCategory = (categoryName) => {
-    setSelectedCategory(categoryName);
-  };
-
-  const getCategories = async () => {
-    try {
-      const response = await fetch(`${API_BASE_URL}/api/category/categories`);
-      const data = await response.json();
-      setCategories(data);
-    } catch (error) {
-      console.log("An error occurred while fetching categories", error);
-    }
-  };
-
-  useEffect(() => {
-    getCategories();
-  }, []);
-
-  return (
-    <div className="sidebar w-1/6">
-      <h3 className="font-bold text-xl">Categories</h3>
-      <ul className=" flex flex-row gap-2 md:flex-col flex-wrap text-sm font-medium ">
-        <li
-          onClick={() => handleCategory("")}
-          className=" md:border-b border-slate-300 flex md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white bg-slate-900 md:text-slate-900 text-white  hover:bg-slate-700 hover:text-white cursor-pointer transition-all delay-150 ease-out"
-        >
-          All
-        </li>
-        {categories.map((category, index) => (
-          <li
-            onClick={() => handleCategory(category.name)}
-            className=" md:border-b border-slate-300 md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white bg-slate-900 md:text-slate-900 text-white  hover:bg-slate-950 hover:text-white cursor-pointer transition-all delay-150 ease-out"
-            key={index}
-          >
-            <p className=" ">{category.name}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -88,6 +46,7 @@ const ProductList = () => {
 
   const [successMessage, setSuccessMessage] = useState("");
   const [successProductId, setSuccessProductId] = useState(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
  
 
   const user = localStorage.getItem("userId");
@@ -146,52 +105,38 @@ const ProductList = () => {
     setCurrentPage(newPage);
   };
 
+
+
+
   const getProducts = async () => {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `${API_BASE_URL}/api/products/products-list/`
+        `${API_BASE_URL}/api/products/product-category/?category=${selectedCategory}&subcategory=${selectedSubcategory}`
       );
       const data = await response.json();
-      console.log(data);
 
       setProducts(data);
       setFilteredProducts(data);
 
       const randomIndex = Math.floor(Math.random() * data.length);
-      console.log(randomIndex);
       setRandomProduct(data[randomIndex]);
-      console.log("Radom Product", data[randomIndex]);
-      console.log(randomProduct.image);
     } catch (error) {
-      console.log("Error while fetching baby care prodcuts");
-      setIsLoading(false);
+      console.log("Error while fetching products");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const filterProductsByCategory = (category) => {
-    setSelectedCategory(category);
-    if (category) {
-      const filtered = products.filter(
-        (product) => product?.category === category
-      );
-      setFilteredProducts(filtered);
-      console.log(filtered);
-    } else {
-      setFilteredProducts(products);
-    }
-    setCurrentPage(1);
-  };
+
+
+
 
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [selectedCategory, selectedSubcategory]);
 
-  useEffect(() => {
-    filterProductsByCategory(selectedCategory);
-  }, [selectedCategory]);
+
 
   const addToCartButton =
     " mt-2 hover:cursor-pointer flex items-center justify-center w-8 h-8 font-bold bg-slate-900 text-white rounded-full";
@@ -219,11 +164,15 @@ const ProductList = () => {
         <Categories
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
+          selectedSubcategory={selectedSubcategory}
+          setSelectedSubcategory={setSelectedSubcategory}
+         
+          
         />
 
         <div>
           <h3 className=" font-bold text-2xl mb-4 text-slate-950">
-            {selectedCategory} products
+            {selectedCategory} / {selectedSubcategory} products
           </h3>
 
         
