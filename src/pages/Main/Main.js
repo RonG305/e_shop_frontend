@@ -27,6 +27,20 @@ import POS from '../../components/ShoppingCart/POS.js'
 import Receipt from '../../components/ShoppingCart/Receipt.js'
 
 const Main = () => {
+
+
+  const ProtectedRoute = ({ component: Component, roles, ...rest }) => {
+    const USERROLE = localStorage.getItem("role");
+
+    if (roles.includes(USERROLE)) {
+      return <Component {...rest} />;
+    } else {
+      return <Navigate to={"/"} replace />;
+    }
+  };
+
+
+
   return (
    <div>
     <div className=' hidden overflow-x-hidden scroll-smooth'>
@@ -55,7 +69,15 @@ const Main = () => {
               <Route path='/checkout' element={<CheckoutPage />} />
               <Route path="/my-orders" element={<CustomerOrders />} />
               <Route path='loader' element={<Loader />} />
-              <Route path='/pos/' element={<POS />} />
+        
+
+              <Route
+              path="/pos"
+              element={
+                <ProtectedRoute component={POS} roles={["admin"]} />
+              }
+            />
+
               <Route path='/receipt' element={<Receipt />} />
 
           </Routes>
