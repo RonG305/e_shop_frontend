@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 const ShoppingCart = () => {
   const { cartItems, totalCost, handleRemoveFromCart, handleClearCart } =
     useContext(CartContext);
-
+  const USERROLE = localStorage.getItem("role");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,6 +16,15 @@ const ShoppingCart = () => {
     setIsLoading(true);
     const timer = setTimeout(() => {
       navigate("/main/checkout");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  };
+
+  const handleCheckoutCash = () => {
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      navigate("/main/checkout-cash");
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -85,13 +94,14 @@ const ShoppingCart = () => {
               </div>
             )}
           </div>
-          {cartItems.length > 0 &&  <button
-            onClick={handleClearCart}
-            className=" bg-red-500 rounded-sm text-white px-4 py-1 mt-2"
-          >
-            clear cart
-          </button>}
-         
+          {cartItems.length > 0 && (
+            <button
+              onClick={handleClearCart}
+              className=" bg-red-500 rounded-sm text-white px-4 py-1 mt-2"
+            >
+              clear cart
+            </button>
+          )}
         </div>
 
         {/* Order Summary */}
@@ -103,12 +113,22 @@ const ShoppingCart = () => {
               <i class="fa fa-circle-o-notch fa-spin"></i>Loading...
             </button>
           ) : (
-            <button
-              onClick={handleCheckout}
-              className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4"
-            >
-              Checkout
-            </button>
+            <>
+              <button
+                onClick={handleCheckout}
+                className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4"
+              >
+                pay with MPESA
+              </button>
+              {USERROLE === "seller" && (
+                <button
+                  onClick={handleCheckoutCash}
+                  className="bg-slate-950 text-white rounded-md px-4 py-2 w-full mt-4"
+                >
+                  pay CASH
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>

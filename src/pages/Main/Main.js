@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 
 
 import Sidebar from '../../components/Sidebar/Sidebar'
@@ -25,6 +25,7 @@ import { LogoutProvider } from '../../LogoutContext.js'
 import Loader from '../../Loader.js'
 import POS from '../../components/ShoppingCart/POS.js'
 import Receipt from '../../components/ShoppingCart/Receipt.js'
+import CheckoutPageForCheckout from '../../components/ShoppingCart/CheckoutPageForCash.js'
 
 const Main = () => {
 
@@ -67,6 +68,9 @@ const Main = () => {
               <Route  path='/product-detail/:id' element={<ProductDetail />}/>
               <Route path='/shopping-cart' element={<ShoppingCart />} />
               <Route path='/checkout' element={<CheckoutPage />} />
+              <Route path='/checkout-cash' 
+              
+              element={<ProtectedRoute component={CheckoutPageForCheckout} roles={["seller"]} />} />
               <Route path="/my-orders" element={<CustomerOrders />} />
               <Route path='loader' element={<Loader />} />
         

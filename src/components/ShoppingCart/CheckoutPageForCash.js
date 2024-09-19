@@ -4,7 +4,7 @@ import OrderSummary from "./OrderSummary";
 import { fetchCartItems } from "../../apiConfig";
 import { API_BASE_URL } from "../../apiConfig";
 
-const CheckoutPage = () => {
+const CheckoutPageForCheckout = () => {
   const [isCheckout, setIsCheckout] = useState(true);
   const navigate = useNavigate();
   const [totalCost, setTotalCost] = useState(0);
@@ -34,7 +34,7 @@ const CheckoutPage = () => {
     zip_code: "10200",
     phone_number: "",
     total_price: totalCost,
-    payment_method: "M-PESA",
+    payment_method: "CASH",
     is_paid: false,
     isDelivered: false,
   });
@@ -64,7 +64,7 @@ const CheckoutPage = () => {
     setIsLoading(true)
     e.preventDefault();
     try {
-      const response = await fetch(`${API_BASE_URL}/api/orders/createOrder/`, {
+      const response = await fetch(`${API_BASE_URL}/api/orders/createOrderForCashPayment/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const CheckoutPage = () => {
       }
     } catch (error) {
       console.error("An error occurred while creating the order", error);
-      setErrorMessage("Failed, phone mumber should start like 254722536741");
+      setErrorMessage("Failed, phone number should start like 254722536741");
     }
   };
 
@@ -106,7 +106,7 @@ const CheckoutPage = () => {
   return (
     <form onSubmit={handleSubmit} className=" rounded-md bg-gray-100 p-4">
       <h3 className="text-center text-slate-950 font-extrabold text-3xl my-4">
-        Checkout 
+        Checkout
       </h3>
 
       <div className=" md:flex ">
@@ -379,4 +379,4 @@ const CheckoutPage = () => {
   );
 };
 
-export default CheckoutPage;
+export default CheckoutPageForCheckout;
