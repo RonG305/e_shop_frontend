@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <div className=' min-h-[75px] bg-slate-100 px-5 py-2 text-slate-700 fixed top-0 w-full mb-[75px] z-50 '>
           <div className=' flex items-center justify-between border-b border-gray-300 pb-2'>
-            <p className=' flex items-center text-md font-medium gap-3'><FaPhone /> +254 790021016</p>
+            <p className=' flex items-center text-md font-medium gap-3'><FaPhone /> +254 759203831</p>
             <div className=' flex gap-2'>
               <Link to={`/main/signup`} className=' rounded-md px-3 py-1 bg-orange-500 hover:border hover:border-orange-500 hover:bg-transparent transition-all delay-75 duration-300 hover:text-slate-900 text-white'>signup</Link>
               {isLoggedIn ? (

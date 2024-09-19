@@ -33,7 +33,7 @@ const Receipt = () => {
 
   return (
     <div className='font-silkscreen p-6 max-w-lg mx-auto border rounded shadow-md my-4'>
-      <h3 className='text-2xl font-bold text-center mb-4'>AGENCY RECEIPT</h3>
+      <h3 className='text-2xl font-bold text-center mb-4'>LIVIA MART RECEIPT</h3>
 
       <div className='mb-4'>
         <h4 className='text-xl font-semibold'>Online Store</h4>
@@ -42,7 +42,7 @@ const Receipt = () => {
       </div>
 
       <div className='mb-4'>
-        <h4 className='text-lg font-semibold'>EleoShop Info</h4>
+        <h4 className='text-lg font-semibold'>Liviamart Info</h4>
         <p>Name: {order.full_name}</p>
         <p>Email: {order.email_address}</p>
         <p>Address: {order.address}, {order.city}, {order.zip_code}</p>
@@ -85,7 +85,7 @@ const Receipt = () => {
 
       <div className='mt-4 text-center'>
         <p className='text-sm'>For support, contact us at:</p>
-        <p className='text-sm'>support@onlinestore.com | +1 234 567 890</p>
+        <p className='text-sm'>support@liviamart.com | +254 759203831</p>
       </div>
 
       <div className='text-center mt-4'>
