@@ -53,7 +53,7 @@ const Main = () => {
         <Header />
         </LogoutProvider>
         <div className=' flex flex-col items-center mt-[120px] overflow-x-hidden '>
-          <div className=' lg:w-[80%] md:[85%] w-[100%]  p-5 '>
+          <div className='  md:[95%] w-[100%]  p-5 '>
            
        
       

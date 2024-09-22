@@ -152,7 +152,7 @@ const CreateProduct = () => {
           </div>
 
           <div className='flex flex-col gap-1 mb-3'>
-            <label>Old Price</label>
+            <label>Buying price</label>
             <input
               type='number'
               name='old_price'
@@ -164,7 +164,7 @@ const CreateProduct = () => {
 
 
           <div className='flex flex-col gap-1 mb-3'>
-            <label>Price</label>
+            <label>Selling Price</label>
             <input
               type='number'
               name='price'

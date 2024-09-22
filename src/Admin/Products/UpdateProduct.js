@@ -170,7 +170,7 @@ const UpdateProduct = () => {
 
 
           <div className='flex flex-col gap-1 mb-3'>
-            <label>Old Price</label>
+            <label>Buying  Price</label>
             <input
               type='number'
               name='old_price'
@@ -181,7 +181,7 @@ const UpdateProduct = () => {
           </div>
 
           <div className='flex flex-col gap-1 mb-3'>
-            <label>Price</label>
+            <label>Selling Price</label>
             <input
               type='number'
               name='price'
