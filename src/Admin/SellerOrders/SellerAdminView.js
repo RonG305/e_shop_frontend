@@ -61,7 +61,7 @@ const SellerAdminView = () => {
     getCustomerOrders();
   }, []);
 
-  // Calculate cumulative pay per seller
+
   const calculateCumulativePay = (orders) => {
     const sellerPays = {};
 
@@ -70,16 +70,36 @@ const SellerAdminView = () => {
       const pay = order.profit * 0.18;
       
       if (sellerPays[seller]) {
-        sellerPays[seller] += pay; // Add to existing cumulative pay
+        sellerPays[seller] += pay; 
       } else {
-        sellerPays[seller] = pay; // Initialize pay for new seller
+        sellerPays[seller] = pay; 
       }
     });
 
     return sellerPays;
   };
 
+
+
+  const calculateCumulativeProfit = (orders) => {
+    const ownersProfit = {}
+    orders.forEach((order) => {
+      const seller = order.user
+      const profitPerPay = order.profit * 0.82
+
+
+      if (ownersProfit[seller]) {
+        ownersProfit[seller] += profitPerPay
+      } else {
+        ownersProfit[seller] = profitPerPay
+      }
+    })
+
+    return ownersProfit
+  }
+
   const sellerPays = calculateCumulativePay(orders);
+  const ownersPays = calculateCumulativeProfit(orders)
 
   return (
     <div className="border border-slate-200 rounded-md p-4 w-full overflow-x-auto relative">
@@ -112,6 +132,7 @@ const SellerAdminView = () => {
                 <>
                   <th className="px-4 py-4">Total Sales</th>
                   <th className="px-4 py-4">Profit</th>
+                  <th className="px-4 py-4">Cummulative profit</th>
                 </>
               )}
               <th className="px-4 py-4">My Pay</th>
@@ -127,6 +148,7 @@ const SellerAdminView = () => {
                   <>
                     <td className="px-4 py-3">{order.total_price}</td>
                     <td className="px-4 py-3">{order.profit}</td>
+                    <td className="px-4 py-3">{ownersPays[order.user].toFixed(2)}</td>
                   </>
                 )}
                 <td className="px-4 py-3">{(order.profit * 0.18).toFixed(2)}</td>
