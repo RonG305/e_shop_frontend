@@ -43,9 +43,9 @@ const Receipt = () => {
 
       <div className='mb-4'>
         <h4 className='text-lg font-semibold'>Liviamart Info</h4>
-        <p>Name: {order.full_name}</p>
-        <p>Email: {order.email_address}</p>
-        <p>Address: {order.address}, {order.city}, {order.zip_code}</p>
+        <p>Name: LIVIA MART</p>
+        <p>Email: liviamartshop@gmail.com</p>
+        <p>Address: 10200, MURANG'A TOWN, MUCHAI BUILDING</p>
         
       </div>
 
