@@ -60,7 +60,7 @@ const Categories = ({ setSelectedCategory, setSelectedSubcategory }) => {
           {categories.map((category, index) => (
             <li key={index} className="cursor-pointer">
               <div
-                className="flex justify-between items-center my-2"
+                className="flex justify-between items-center my-2 mr-2"
                 onClick={() => toggleCategory(category.name)}
               >
                 <p>{category.name}</p>
