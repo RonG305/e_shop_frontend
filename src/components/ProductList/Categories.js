@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { API_BASE_URL } from "../../apiConfig";
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowForward } from "react-icons/io";
 
 const Categories = ({ setSelectedCategory, setSelectedSubcategory }) => {
   const [categories, setCategories] = useState([]);
@@ -49,7 +51,7 @@ const Categories = ({ setSelectedCategory, setSelectedSubcategory }) => {
 
   return (
     <div className="overflow-y-scroll">
-      <div className="sidebar md:w-[300px] h-[40vh] md:px-5 ">
+      <div className="sidebar md:w-[300px] h-[40vh] md:h-[100vh] md:px-5 ">
         <h3 className="font-bold text-xl">Categories</h3>
         <ul className="flex flex-col gap-2 text-sm font-medium">
           <li onClick={() => toggleCategory("")} className="cursor-pointer">
@@ -58,14 +60,14 @@ const Categories = ({ setSelectedCategory, setSelectedSubcategory }) => {
           {categories.map((category, index) => (
             <li key={index} className="cursor-pointer">
               <div
-                className="flex justify-between items-center"
+                className="flex justify-between items-center my-2"
                 onClick={() => toggleCategory(category.name)}
               >
                 <p>{category.name}</p>
                 {openCategory === category.name ? (
-                  <span>&#9650;</span> 
+                  <IoIosArrowDown />
                 ) : (
-                  <span>&#9660;</span> 
+                  <IoIosArrowForward />
                 )}
               </div>
 
@@ -77,7 +79,7 @@ const Categories = ({ setSelectedCategory, setSelectedSubcategory }) => {
                       <li
                         key={subIndex}
                         onClick={() => handleSubcategory(subcategory.name)}
-                        className="md:border-b border-slate-300 md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white cursor-pointer transition-all delay-150 ease-out"
+                        className=" text-gray-600 md:py-2 md:px-0 rounded-md px-2 py-1 md:bg-white cursor-pointer transition-all delay-150 ease-out"
                       >
                         {subcategory.name}
                       </li>
